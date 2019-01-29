@@ -16,13 +16,26 @@
   <body bgcolor="#AAAAAA"></body>
   <script>
 
-  /* ************************************ */
-  /* Define helper functions */
-  /* ************************************ */
+  //things to do
+  //1. add the choice option - my group (black) not my group (red button)
+  //2. get a better way to upload the figures
+  //3. change the amount of faces in array to 12
+  //4. fix the scale 
 
   /* ************************************ */
-  /* Set up jsPsych blocks - static */
+  /* Define experimental variables / upload data */
   /* ************************************ */
+
+  var base_path = 'stimuli/'
+
+  var unShuffledStims = [
+    '001.png',
+    '002.png',
+    '003.png'
+    ]
+
+  var stims = jsPsych.randomization.shuffle(unShuffledStims); //shuffle stims
+
 
   var Face = {}; //create Face dictionary to (1)record fixation time, (2)make face sample and scale have the same person and valence in every trial
   Face.pos = [ ];  //define position as a list in Face dictionary to input randomly selected numbers that represent 16 positions
@@ -66,7 +79,13 @@
           else{ return false;} },
         };
 
- // add a picture
+  var stimuli = {
+    type: 'image-button-response',
+    stimulus: getFirstStim,
+    choices: [],
+    trial_duration : 1000,
+    prompt: ""
+  };
 
   var fixation = {
       type: 'html-keyboard-response',
@@ -148,7 +167,7 @@
   //collective_emotion_estimation.push(instructions); //diaplay last page of instruction
 
   var repeat = { //conduct the actual 50 tasks
-      timeline: [fixation,facesArray,response],
+      timeline: [fixation,stimuli,response, facesArray],
       repetitions: 10,
       randomize_order: true
   }

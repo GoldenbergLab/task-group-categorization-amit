@@ -2,6 +2,16 @@
 Various useful functions
 **/
 
+
+//function to get the first stimuli
+var getFirstStim = function() {
+  var curr_stim = stims [0]
+  var stim = base_path + curr_stim //add the path the stim
+  return stim;
+}
+
+
+
 function getRandomInt(min, max) {
   return Math.floor(Math.random()*(max - min + 1) + min);
 }
