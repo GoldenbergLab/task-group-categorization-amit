@@ -26,16 +26,6 @@
   /* Define experimental variables / upload data */
   /* ************************************ */
 
-  var base_path = 'stimuli/'
-
-  var unShuffledStims = [
-    '001.png',
-    '002.png',
-    '003.png'
-    ]
-
-  var stims = jsPsych.randomization.shuffle(unShuffledStims); //shuffle stims
-
 
   var Face = {}; //create Face dictionary to (1)record fixation time, (2)make face sample and scale have the same person and valence in every trial
   Face.pos = [ ];  //define position as a list in Face dictionary to input randomly selected numbers that represent 16 positions
