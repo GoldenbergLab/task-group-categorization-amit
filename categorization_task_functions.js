@@ -2,16 +2,6 @@
 Various useful functions
 **/
 
-
-//function to get the first stimuli
-var getFirstStim = function() {
-  var curr_stim = stims [0]
-  var stim = base_path + curr_stim //add the path the stim
-  return stim;
-}
-
-
-
 function getRandomInt(min, max) {
   return Math.floor(Math.random()*(max - min + 1) + min);
 }
@@ -69,12 +59,23 @@ function getFaceSample (){  //get the sample of faces in each trial
 }
 
 
-
+function getButtons() {
+    var trialButtons = [
+    '<button class="jspsych-btn" style="color:white; font-size: 20px; background-color:black; border-radius: 10%">%choice%</button>',
+    '<button class="jspsych-btn" style="color:white; font-size: 20px; background-color:red">%choice%</button>'
+    ];
+    myButtons = [];
+    myButtons.push(trialButtons);
+    //alert (myButtons)
+    return myButtons[myButtons.length -1];
+  }
 
 function getNextSlide () {  //use to shift instruction slides
   var currentSlide = slideList.shift();
-  return currentSlide
+  return currentSlide;
 }
+
+
 
 //data/server communication
 function saveData(filename, filedata, callback, error_callback){

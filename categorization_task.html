@@ -21,7 +21,7 @@
  
 
   /* ************************************ */
-  /* Define experimental variables / upload data */
+  /* Define experimental variables / upload data */	
   /* ************************************ */
 
 
@@ -130,6 +130,15 @@
           data: {Name:'faceArray'}
     };
 
+	
+	var button = {
+      type: 'image-button-response',
+      stimulus: '',
+      choices: [' My  group ','Not my group'],
+      button_html: getButtons,
+    };
+
+
     var connectSurvey = {
       type: 'image-button-response',
       stimulus: getNextSlide,
@@ -141,11 +150,11 @@
 
   var collective_emotion_estimation = []; //display instructions
  // collective_emotion_estimation.push(participant_id)
-  for (var i = 0; i < slideList.length-2; i++) {
-     collective_emotion_estimation.push(instructions)}
+  //for (var i = 0; i < slideList.length-2; i++) {
+     //collective_emotion_estimation.push(instructions)}
 
   var repeat = {        //conduct a practice round with two trials
-      timeline: [fixation,facesArray,response],
+      timeline: [fixation,stimuli,response,facesArray,button],
       repetitions: 1,
       randomize_order: true
   }
@@ -153,7 +162,8 @@
   //collective_emotion_estimation.push(instructions); //diaplay last page of instruction
 
   var repeat = { //conduct the actual 50 tasks
-      timeline: [fixation,stimuli,response, facesArray],
+      timeline: [fixation,//stimuli,response,facesArray,
+      button],
       repetitions: 10,
       randomize_order: true
   }
