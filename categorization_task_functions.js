@@ -47,6 +47,9 @@ function getScale (){ //generate the rating scale depending on the person and va
 
 
 function getFaceSample (){  //get the sample of faces in each trial
+  //for kiki
+  // add code to randomize the condtion (mean - lower, same, higher, SD - 5 or 10)
+  //look at participant last rating
 
   return [
     ['img/'+ Face.personX +(Face.emotionX + Face.pos[1]) + '.jpg', 'img/'+ Face.personX +(Face.emotionX + Face.pos[2]) + '.jpg',
