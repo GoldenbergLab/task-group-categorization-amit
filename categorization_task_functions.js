@@ -25,7 +25,15 @@ function getFixationTime (){  //get randomized time of fixation by randomly choo
   return Face.fixationTime;
 }
 
-function getFaceSample (){  //get the sample of faces in each trial
+function getFigure(){
+  Face.figure = getRandomElement([1, 3]);
+  return 'stimuli/00'+ Face.figure + '.png';
+}
+
+
+
+function getScale (){ //generate the rating scale depending on the person and valence randomly chosen in faceArray
+
   //choose positive or negative valence
   Face.emotionX = getRandomElement([50, 100]); //randomly choose from negative and postive emotion
   //choose the identity of the face
@@ -33,18 +41,6 @@ function getFaceSample (){  //get the sample of faces in each trial
   //define 16 faces in the face array
   for (i = 1; i < 17; i++) {
     Face.pos[i] = getRandomInt(1,50)};
-  return [
-    ['img/'+ Face.personX +(Face.emotionX + Face.pos[1]) + '.jpg', 'img/'+ Face.personX +(Face.emotionX + Face.pos[2]) + '.jpg',
-     'img/'+ Face.personX +(Face.emotionX + Face.pos[3]) + '.jpg', 'img/'+ Face.personX +(Face.emotionX + Face.pos[4]) + '.jpg'],
-    ['img/'+ Face.personX +(Face.emotionX + Face.pos[5]) + '.jpg', 'img/'+ Face.personX +(Face.emotionX + Face.pos[6]) + '.jpg',
-     'img/'+ Face.personX +(Face.emotionX + Face.pos[7]) + '.jpg', 'img/'+ Face.personX +(Face.emotionX + Face.pos[8]) + '.jpg'],
-    ['img/'+ Face.personX +(Face.emotionX + Face.pos[9]) + '.jpg', 'img/'+ Face.personX +(Face.emotionX + Face.pos[10])+ '.jpg',
-     'img/'+ Face.personX +(Face.emotionX + Face.pos[11])+ '.jpg', 'img/'+ Face.personX +(Face.emotionX + Face.pos[12])+ '.jpg']
-    ];
-}
-
-
-function getScale (){ //generate the rating scale depending on the person and valence randomly chosen in faceArray
 
   return ['img/'+
       Face.personX+(Face.emotionX + 3*0) + '.jpg', 'img/'+Face.personX+(Face.emotionX + 3*1) + '.jpg', 'img/'+
@@ -57,6 +53,22 @@ function getScale (){ //generate the rating scale depending on the person and va
       Face.personX+(Face.emotionX + 3*14)+ '.jpg', 'img/'+Face.personX+(Face.emotionX + 3*15)+ '.jpg', 'img/'+
       Face.personX+(Face.emotionX + 3*16)+ '.jpg', 'img/'+Face.personX+(Face.emotionX + 1*50)+ '.jpg']
 }
+
+
+
+function getFaceSample (){  //get the sample of faces in each trial
+
+  return [
+    ['img/'+ Face.personX +(Face.emotionX + Face.pos[1]) + '.jpg', 'img/'+ Face.personX +(Face.emotionX + Face.pos[2]) + '.jpg',
+     'img/'+ Face.personX +(Face.emotionX + Face.pos[3]) + '.jpg', 'img/'+ Face.personX +(Face.emotionX + Face.pos[4]) + '.jpg'],
+    ['img/'+ Face.personX +(Face.emotionX + Face.pos[5]) + '.jpg', 'img/'+ Face.personX +(Face.emotionX + Face.pos[6]) + '.jpg',
+     'img/'+ Face.personX +(Face.emotionX + Face.pos[7]) + '.jpg', 'img/'+ Face.personX +(Face.emotionX + Face.pos[8]) + '.jpg'],
+    ['img/'+ Face.personX +(Face.emotionX + Face.pos[9]) + '.jpg', 'img/'+ Face.personX +(Face.emotionX + Face.pos[10])+ '.jpg',
+     'img/'+ Face.personX +(Face.emotionX + Face.pos[11])+ '.jpg', 'img/'+ Face.personX +(Face.emotionX + Face.pos[12])+ '.jpg']
+    ];
+}
+
+
 
 
 function getNextSlide () {  //use to shift instruction slides

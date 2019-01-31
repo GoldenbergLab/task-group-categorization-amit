@@ -18,8 +18,7 @@
 
   //things to do - test
   //1. add the choice option - my group (black) not my group (red button)
-  //2. get a better way to upload the figures
-  //3. change the amount of faces in array to 12
+ 
 
   /* ************************************ */
   /* Define experimental variables / upload data */
@@ -70,7 +69,7 @@
 
   var stimuli = {
     type: 'image-button-response',
-    stimulus: getFaceSample,
+    stimulus: getFigure,
     choices: [],
     trial_duration : 1000,
     prompt: ""
@@ -82,13 +81,6 @@
       trial_duration:  getFixationTime,  //transfer ms to s in units
       data: function(){
       return {Name:'fixation'}}
-  };
-
-  var facesArray = {                //there is an array of randomly selected pictures//
-        type: 'vsl-grid-scene1',
-        stimuli:  getFaceSample,
-        timing_duration: 1000,
-        data: {Name:'faceArray'}
   };
 
 
@@ -129,6 +121,14 @@
             Face.pos[7]+Face.pos[8]+Face.pos[9]+Face.pos[10]+Face.pos[11]+Face.pos[12])/16
           }}
       };
+
+
+    var facesArray = {                //there is an array of randomly selected pictures//
+          type: 'vsl-grid-scene1',
+          stimuli:  getFaceSample,
+          timing_duration: 1000,
+          data: {Name:'faceArray'}
+    };
 
     var connectSurvey = {
       type: 'image-button-response',
