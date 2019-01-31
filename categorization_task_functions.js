@@ -39,9 +39,7 @@ function getFaceSample (){  //get the sample of faces in each trial
     ['img/'+ Face.personX +(Face.emotionX + Face.pos[5]) + '.jpg', 'img/'+ Face.personX +(Face.emotionX + Face.pos[6]) + '.jpg',
      'img/'+ Face.personX +(Face.emotionX + Face.pos[7]) + '.jpg', 'img/'+ Face.personX +(Face.emotionX + Face.pos[8]) + '.jpg'],
     ['img/'+ Face.personX +(Face.emotionX + Face.pos[9]) + '.jpg', 'img/'+ Face.personX +(Face.emotionX + Face.pos[10])+ '.jpg',
-     'img/'+ Face.personX +(Face.emotionX + Face.pos[11])+ '.jpg', 'img/'+ Face.personX +(Face.emotionX + Face.pos[12])+ '.jpg'],
-    ['img/'+ Face.personX +(Face.emotionX + Face.pos[13])+ '.jpg', 'img/'+ Face.personX +(Face.emotionX + Face.pos[14])+ '.jpg',
-     'img/'+ Face.personX +(Face.emotionX + Face.pos[15])+ '.jpg', 'img/'+ Face.personX +(Face.emotionX + Face.pos[16])+ '.jpg']
+     'img/'+ Face.personX +(Face.emotionX + Face.pos[11])+ '.jpg', 'img/'+ Face.personX +(Face.emotionX + Face.pos[12])+ '.jpg']
     ];
 }
 
