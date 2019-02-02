@@ -87,13 +87,17 @@
         stimulus: getScale,
         prompt: "<p>Estimate the average emotion of the faces you saw in the previous window</p>",
         step:1,
-        max:50,
-        start: 0,
+        max:40,
+        start:00,
 
         on_finish: function(){
-          Face.Mean = jsPsych.data.getLastTrialData().select('responses').values[0];
+          Face.realMean = jsPsych.data.getLastTrialData().select('responses').values[0];
 		  Face.sampleMean = Face.Mean + getRandomElement([0, -10, +10]);
 		  Face.sampleSD = getRandomElement([0, -5, +5])},
+
+		  //add function to select file
+
+
 
         data: function(){
           return {
@@ -101,7 +105,7 @@
             fixationTime: Face.fixationTime,
             faceIdentity: Face.personX,
 
-            // these data are from faceSample, I need define Sample first and display them, or move data to faceSample 	
+            //these data are from faceSample, I need define Sample first and display them✅, or move data to faceSample 	
             pos1:(Face.emotionX + Face.pos[1]),   pos2:(Face.emotionX + Face.pos[2]),
             pos3:(Face.emotionX + Face.pos[3]),   pos4:(Face.emotionX + Face.pos[4]),
             pos5:(Face.emotionX + Face.pos[5]),   pos6:(Face.emotionX + Face.pos[6]),
@@ -126,7 +130,7 @@
 	var button = {
       type: 'image-button-response',
       stimulus: '',
-      choices: [' My   group ','Not my group'],
+      choices: [' My Group ','Not My Group'],
       button_html: getButtons,
     };
 
@@ -146,8 +150,8 @@
      //collective_emotion_estimation.push(instructions)}
 
   var repeat = {        //conduct a practice round with two trials
-      timeline: [//fixation,stimuli,response,facesSample,
-      button],
+      timeline: [//fixation,stimuli,
+      response,facesSample,button],
       repetitions: 5,
       randomize_order: true
   }
