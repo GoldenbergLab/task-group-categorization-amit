@@ -16,12 +16,6 @@
   <body bgcolor="#AAAAAA"></body>
   <script>
 
-  //things to do - test
-  //1. add the choice option - my group (black) not my group (red button)
-  //2. get a better way to upload the figures
-  //3. change the amount of faces in array to 12
-  //4. fix the scale
- 
 
   /* ************************************ */
   /* Define experimental variables / upload data */	
@@ -70,13 +64,6 @@
           else{ return false;} },
         };
 
-  var stimuli = {
-    type: 'image-button-response',
-    stimulus: getFigure,
-    choices: [],
-    trial_duration : 1000,
-    prompt: ""
-  };
 
   var fixation = {
       type: 'html-keyboard-response',
@@ -84,6 +71,14 @@
       trial_duration:  getFixationTime,  //transfer ms to s in units
       data: function(){
       return {Name:'fixation'}}
+  };
+
+  var stimuli = {
+    type: 'image-button-response',
+    stimulus: getFigure,
+    choices: [],
+    trial_duration : 1000,
+    prompt: ""
   };
 
 
@@ -94,25 +89,19 @@
         step:1,
         max:50,
         start: 0,
+
         on_finish: function(){
-          var trialNumber = jsPsych.data.get().last(3).select('trial_index')[0];
-          var currentRate = jsPsych.data.response;
-          if (trialNumber > 9) { // after one practice trial and two trials, we begin to test whether choice is the same as previous two
-          var lastRatings = jsPsych.data.get().last(6).filter({trial_type:'image-slider-response_noButton'}).values();
-          var last1Rating = Number(lastRatings[0].response);
-          var last2Rating = Number(lastRatings[1].response);
-            if (last1Rating == last2Rating == currentRate){
-              alert('It seems that you are making repeated choices');
-              return false;
-            }else {
-                return true;
-            }
-          }else {return true;}},
+          Face.Mean = jsPsych.data.getLastTrialData().select('responses').values[0];
+		  Face.sampleMean = Face.Mean + getRandomElement([0, -10, +10]);
+		  Face.sampleSD = getRandomElement([0, -5, +5])},
+
         data: function(){
           return {
-            ame: 'response',
+            Name: 'response',
             fixationTime: Face.fixationTime,
             faceIdentity: Face.personX,
+
+            // these data are from faceSample, I need define Sample first and display them, or move data to faceSample
             pos1:(Face.emotionX + Face.pos[1]),   pos2:(Face.emotionX + Face.pos[2]),
             pos3:(Face.emotionX + Face.pos[3]),   pos4:(Face.emotionX + Face.pos[4]),
             pos5:(Face.emotionX + Face.pos[5]),   pos6:(Face.emotionX + Face.pos[6]),
@@ -126,11 +115,11 @@
       };
 
 
-    var facesArray = {                //there is an array of randomly selected pictures//
+    var facesSample = {                //we show face array based on participant's response
           type: 'vsl-grid-scene1',
-          stimuli:  getFaceSample,
+          stimuli:  getFaceSample,  //for selection detail. see function.js
           timing_duration: 1000,
-          data: {Name:'faceArray'}
+          data: {Name:'facesSample'}
     };
 
 	
@@ -157,7 +146,7 @@
      collective_emotion_estimation.push(instructions)}
 
   var repeat = {        //conduct a practice round with two trials
-      timeline: [fixation,stimuli,response,facesArray,button],
+      timeline: [fixation,stimuli,response,facesSample,button],
       repetitions: 1,
       randomize_order: true
   }
@@ -165,7 +154,7 @@
   collective_emotion_estimation.push(instructions); //diaplay last page of instruction
 
   var repeat = { //conduct the actual 50 tasks
-      timeline: [fixation,stimuli,response,facesArray,button],
+      timeline: [fixation,stimuli,response,facesSample,button],
       repetitions: 10,
       randomize_order: true
   }

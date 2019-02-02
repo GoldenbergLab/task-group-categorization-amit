@@ -15,7 +15,7 @@ function getFixationTime (){  //get randomized time of fixation by randomly choo
   return Face.fixationTime;
 }
 
-function getFigure(){
+function getFigure(){      //get images as stimulus
   Face.figure = getRandomElement([1, 3]);
   return 'stimuli/00'+ Face.figure + '.png';
 }
@@ -48,8 +48,12 @@ function getScale (){ //generate the rating scale depending on the person and va
 
 function getFaceSample (){  //get the sample of faces in each trial
   //for kiki
-  // add code to randomize the condtion (mean - lower, same, higher, SD - 5 or 10)
+  //add code to randomize the condtion (mean - lower, same, higher, SD - 5 or 10) <- -5 OR 10?
   //look at participant last rating
+
+  Face.Mean = jsPsych.data.getLastTrialData().select('responses').values[0];
+  Face.sampleMean = Face.Mean + getRandomElement([0, -10, +10]);
+  Face.sampleSD = getRandomElement([0, -5, +5])
 
   return [
     ['img/'+ Face.personX +(Face.emotionX + Face.pos[1]) + '.jpg', 'img/'+ Face.personX +(Face.emotionX + Face.pos[2]) + '.jpg',
