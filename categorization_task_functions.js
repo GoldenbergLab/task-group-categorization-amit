@@ -51,9 +51,7 @@ function getFaceSample (){  //get the sample of faces in each trial
   //add code to randomize the condtion (mean - lower, same, higher, SD - 5 or 10) <- -5 OR 10?
   //look at participant last rating
 
-  Face.Mean = jsPsych.data.getLastTrialData().select('responses').values[0];
-  Face.sampleMean = Face.Mean + getRandomElement([0, -10, +10]);
-  Face.sampleSD = getRandomElement([0, -5, +5])
+  
 
   return [
     ['img/'+ Face.personX +(Face.emotionX + Face.pos[1]) + '.jpg', 'img/'+ Face.personX +(Face.emotionX + Face.pos[2]) + '.jpg',
@@ -68,8 +66,8 @@ function getFaceSample (){  //get the sample of faces in each trial
 
 function getButtons() {
     var trialButtons = [
-    '<button class="jspsych-btn" style="color:white; font-size: 20px; background-color:black; border-radius: 10%">%choice%</button>',
-    '<button class="jspsych-btn" style="color:white; font-size: 20px; background-color:red">%choice%</button>'
+    '<button class="jspsych-btn" style="color:white; font-size: 24px; padding: 26px ;background-color:black;position:fixed; left: 390px;top: 270px;width: 210px;box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.9);border-radius: 50%">%choice%</button>',
+    '<button class="jspsych-btn" style="color:white; font-size: 24px; padding: 26px ;background-color:red;position:fixed; left: 840px;top: 270px;width: 210px;box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.9);border-radius: 50%">%choice%</button>'
     ];
     myButtons = [];
     myButtons.push(trialButtons);
