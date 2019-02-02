@@ -18,9 +18,8 @@
 
 
   /* ************************************ */
-  /* Define experimental variables / upload data */	
+  /* Define experimental variables / upload data */
   /* ************************************ */
-
 
   var Face = {}; //create Face dictionary to (1)record fixation time, (2)make face sample and scale have the same person and valence in every trial
   Face.pos = [ ];  //define position as a list in Face dictionary to input randomly selected numbers that represent 16 positions
@@ -28,6 +27,14 @@
   var slideList = ['img/ins/Slide 1.png','img/ins/Slide 2.png','img/ins/Slide 3.png','img/ins/Slide 4.png',
                    'img/ins/Slide 5.png','img/ins/Slide 6.png','img/ins/Slide 7.png','img/ins/Slide 8.png'];//list of instructions slides
 
+   //get distributions of faces
+   var face5sd =
+     $.getJSON('https://web.stanford.edu/~amitgold/categorization_task/face_distribution_5sd.json', function(data) {
+   });
+
+   var face10sd =
+     $.getJSON('https://web.stanford.edu/~amitgold/categorization_task/face_distribution_10sd.json', function(data) {
+   });
 
   /******************************************/
   /* Set up Instructions */
@@ -105,7 +112,7 @@
             fixationTime: Face.fixationTime,
             faceIdentity: Face.personX,
 
-            //these data are from faceSample, I need define Sample first and display them✅, or move data to faceSample 	
+            //these data are from faceSample, I need define Sample first and display them✅, or move data to faceSample
             pos1:(Face.emotionX + Face.pos[1]),   pos2:(Face.emotionX + Face.pos[2]),
             pos3:(Face.emotionX + Face.pos[3]),   pos4:(Face.emotionX + Face.pos[4]),
             pos5:(Face.emotionX + Face.pos[5]),   pos6:(Face.emotionX + Face.pos[6]),
@@ -126,7 +133,7 @@
           data: {Name:'facesSample'}
     };
 
-	
+
 	var button = {
       type: 'image-button-response',
       stimulus: '',
