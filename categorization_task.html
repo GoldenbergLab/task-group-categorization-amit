@@ -152,20 +152,19 @@
      collective_emotion_estimation.push(instructions)}
 
   var repeat = {        //conduct a practice round with two trials
-      timeline: [fixation,//stimuli,
-      response,facesSample,button],
+      timeline: [fixation,stimuli,response,facesSample,button],
       repetitions: 3,
       randomize_order: true
   }
   collective_emotion_estimation.push(repeat);
-  //collective_emotion_estimation.push(instructions); //diaplay last page of instruction
+  collective_emotion_estimation.push(instructions); //diaplay last page of instruction
 
   var repeat = { //conduct the actual 50 tasks
       timeline: [fixation,stimuli,response,facesSample,button],
       repetitions: 3,
       randomize_order: true
   }
-  //collective_emotion_estimation.push(repeat);
+  collective_emotion_estimation.push(repeat);        
   collective_emotion_estimation.push(connectSurvey);
 
   /* start the experiment */
