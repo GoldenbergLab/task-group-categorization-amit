@@ -1,0 +1,188 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>categorization_task</title>
+    <script src="jspsych-6.0.5/jspsych.js"></script>
+    <script src="jspsych-6.0.5/plugins/jspsych-image-button-response.js"></script>
+    <script src="jspsych-6.0.5/plugins/jspsych-survey-text.js"></script>
+    <script src="jspsych-6.0.5/plugins/jspsych-html-keyboard-response.js"></script>
+    <script src="jspsych-6.0.5/plugins/jspsych-image-slider-response_noButton.js"></script>
+    <script src="jspsych-6.0.5/plugins/jspsych-vsl-grid-scene1.js"></script>
+    <script src="categorization_task_functions.js"></script>
+    <script src="jquery-3.3.1.min.js"></script>
+    <link href="jspsych-6.0.5/css/jspsych.css" rel="stylesheet" type="text/css"></link>
+  </head>
+  <body bgcolor="#AAAAAA"></body>
+  <script>
+
+
+  /* ************************************ */
+  /* Define experimental variables / upload data */
+  /* ************************************ */
+
+  var Face = {}; //create Face dictionary to (1)record fixation time, (2)make face sample and scale have the same person and valence in every trial
+  Face.pos = [ ];  //define position as a list in Face dictionary to input randomly selected numbers that represent 16 positions
+
+  var slideList = ['img/ins/Slide 1.png','img/ins/Slide 2.png','img/ins/Slide 3.png','img/ins/Slide 4.png',
+                   'img/ins/Slide 5.png','img/ins/Slide 6.png','img/ins/Slide 7.png','img/ins/Slide 8.png'];//list of instructions slides
+
+   //get distributions of faces
+   var face5sd =
+     [5,$.getJSON('https://web.stanford.edu/~amitgold/categorization_task/face_distribution_5sd.json', function(data) {
+   })]; //the face distribution is in responseJSON, the "5" and "10" are to record SD in data
+
+   var face10sd =
+     [10,$.getJSON('https://web.stanford.edu/~amitgold/categorization_task/face_distribution_10sd.json', function(data) {
+   })];
+
+  /******************************************/
+  /* Set up Instructions */
+  /******************************************/
+
+  var instructions = {
+      type: "image-button-response",
+      stimulus: getNextSlide,
+      choices: ['Continue'],
+      margin_vertical: '10px',
+      data: {Name:'instructions'}
+    };
+
+  /******************************************/
+  /* Start Experiment - trial by trial */
+  /******************************************/
+  var enter_id = {
+      type: 'survey-text',
+      questions: [{prompt: "Please enter your participant id"}],
+      on_finish: function(data){
+        Face.ID = JSON.parse(data.responses).Q0; // save id as global variable
+        jsPsych.data.addProperties({participant_id: Face.ID}); // add the participant column to all current and future data entries
+      }};
+
+  var participant_id = {
+      timeline: [enter_id],
+      loop_function: function(data){
+      var lasttrialdata = jsPsych.data.getLastTrialData().select('responses').values[0];
+      var lasttrialdata2 = JSON.parse(lasttrialdata).Q0;
+      var patt = new RegExp("^[a-zA-Z_0-9]{1,}$"); //the first and last character
+      if (!patt.test(lasttrialdata2)){      //test if first/last character in response exist
+         alert("Please, enter your participant id");
+          return true; }
+          else{ return false;} },
+        };
+
+
+  var fixation = {
+      type: 'html-keyboard-response',
+      stimulus: '<p style="font-size: 48px;">+</p>',
+      trial_duration:  getFixationTime,  //transfer ms to s in units
+      data: {Name:'fixation'}
+  };
+
+  var stimuli = {
+    type: 'image-button-response',
+    stimulus: getFigure,
+    choices: [],
+    trial_duration : 1000,
+    prompt: "",
+    data: {Name:'stimuli'}
+  };
+
+
+  var response = {
+        type: 'image-slider-response_noButton',
+        stimulus: getScale,
+        prompt: "<p>Estimate the average emotion of the faces you saw in the previous window</p>",
+        step:1,
+        max:40,
+        start:0,
+        data: {Name:'scale'}
+      };
+
+
+    var facesSample = {                //we show face array based on participant's response
+          type: 'vsl-grid-scene1',
+          stimuli:  getFaceSample,  //for selection detail. see function.js
+          timing_duration: 1000,
+          data: {Name:'array'}
+    };
+
+
+	var button = {
+      type: 'image-button-response',
+      stimulus: '',
+      choices: [' My Group ','Not My Group'],
+      button_html: getButtons,
+      data: function(){
+          return {
+            Name: 'buttonResponse',
+            fixationTime: Face.fixationTime,
+            faceIdentity: Face.personX,
+            rating: Face.response,
+
+            sampleSD: Face.recordSD,
+            sampleMean: Face.sampleMean,
+
+            pos1:(Face.emotionX + Face.pos[0]),   pos2:(Face.emotionX + Face.pos[1]),
+            pos3:(Face.emotionX + Face.pos[2]),   pos4:(Face.emotionX + Face.pos[3]),
+            pos5:(Face.emotionX + Face.pos[4]),   pos6:(Face.emotionX + Face.pos[5]),
+            pos7:(Face.emotionX + Face.pos[6]),   pos8:(Face.emotionX + Face.pos[7]),
+            pos9:(Face.emotionX + Face.pos[8]),   pos10:(Face.emotionX + Face.pos[9]),
+            pos11:(Face.emotionX + Face.pos[10]), pos12:(Face.emotionX + Face.pos[11]),
+
+           meanAgents: Face.emotionX +
+           (Face.pos[0]+Face.pos[1]+Face.pos[2]+Face.pos[3]+Face.pos[4]+Face.pos[5]+
+            Face.pos[6]+Face.pos[7]+Face.pos[8]+Face.pos[9]+Face.pos[10]+Face.pos[11])/12
+          }}
+    };
+
+
+    var connectSurvey = {
+      type: 'image-button-response',
+      stimulus: getNextSlide,
+      choices: ['Begin Survey']
+    };
+
+
+  /* create experiment definition array */
+
+  var collective_emotion_estimation = []; //display instructions
+  collective_emotion_estimation.push(participant_id)
+  //for (var i = 0; i < slideList.length-2; i++) {
+     //collective_emotion_estimation.push(instructions)}
+
+  var repeat = {        //conduct a practice round with two trials
+      timeline: [fixation,//stimuli,
+      response,facesSample,button],
+      repetitions: 3,
+      randomize_order: true
+  }
+  collective_emotion_estimation.push(repeat);
+  //collective_emotion_estimation.push(instructions); //diaplay last page of instruction
+
+  var repeat = { //conduct the actual 50 tasks
+      timeline: [fixation,stimuli,response,facesSample,button],
+      repetitions: 3,
+      randomize_order: true
+  }
+  //collective_emotion_estimation.push(repeat);        
+  collective_emotion_estimation.push(connectSurvey);
+
+  /* start the experiment */
+  jsPsych.init({
+  timeline: collective_emotion_estimation,
+    on_finish: function(data){
+      //saveData
+    var final_submit = function() {
+             jsPsych.turk.submitToTurk({"completion_time": (new Date().getTime())});
+          };
+      saveData("2019_first_pilot_amplification/" + Face.ID+ ".json",
+      jsPsych.data.get().json(), final_submit, final_submit);
+    jsPsych.data.get().localSave('csv',Face.ID+'.csv'); //save as csv file with id as file name
+    window.location = "https://stanforduniversity.qualtrics.com/jfe/form/SV_cBULlVQd3dVp3q5"
+    }
+
+  })
+
+  </script>
+  </html>

@@ -58,7 +58,7 @@ function getFaceSample (){  //get the sample of faces in each trial
 
           if ( Face.response < 21) {  //if you rated the picture between 10-20 you can only be assigned to the same or higher condition
               Face.sampleMean = Face.response + 10;
-            } else if (response > 30) {   //If you rated the picture between 30 to 40 you can only be assigned to lower or same
+            } else if (Face.response > 30) {   //If you rated the picture between 30 to 40 you can only be assigned to lower or same
               Face.sampleMean = Face.response - 10;
             } else {
               Face.sampleMean = Face.response + getRandomElement([0, -10, +10]);
