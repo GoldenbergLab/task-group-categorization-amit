@@ -44,6 +44,14 @@ function getScale (){ //generate the rating scale depending on the person and va
       Face.personX+(Face.emotionX + 3*16)+ '.jpg', 'img/'+Face.personX+(Face.emotionX + 1*50)+ '.jpg']
 }
 
+function TestObject (name) {
+    return {
+        getObjectName: function() {
+            return name
+        }
+    };
+}
+
 
 
 function getFaceSample (){  //get the sample of faces in each trial
@@ -52,7 +60,7 @@ function getFaceSample (){  //get the sample of faces in each trial
   //look at participant last rating
 
           Face.sampleSD  = getRandomElement([face5sd,face10sd]); //random select from SD=5 and SD=10,
-          Face.recordSD = Object.keys(Face.sampleSD.responseJSON)[0];
+          Face.recordSD = TestObject(Face.sampleSD);
 
           trialData = jsPsych.data.get().last(1).filter({trial_type:'image-slider-response_noButton'}).values();
           Face.response = Number(trialData[0].response); //get response 
