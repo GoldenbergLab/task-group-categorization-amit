@@ -48,26 +48,41 @@ function getScale (){ //generate the rating scale depending on the person and va
 
 function getFaceSample (){  //get the sample of faces in each trial
   //for kiki
-  //add code to randomize the condtion (mean - lower, same, higher, SD - 5 or 10) <- -5 OR 10?
+  //add code to randomize the condtion (mean - lower, same, higher, SD - 5 or 10)
   //look at participant last rating
 
-  
+          Face.sampleSD  = getRandomElement([face5sd,face10sd]); //random select from SD=5 and SD=10,
+          Face.recordSD = Object.keys(Face.sampleSD.responseJSON)[0];
+
+          trialData = jsPsych.data.get().last(1).filter({trial_type:'image-slider-response_noButton'}).values();
+          Face.response = Number(trialData[0].response); //get response 
+
+          if ( Face.response < 21) {  //if you rated the picture between 10-20 you can only be assigned to the same or higher condition
+              Face.sampleMean = Face.response + 10;
+            } else if (response > 30) {   //If you rated the picture between 30 to 40 you can only be assigned to lower or same
+              Face.sampleMean = Face.response - 10;
+            } else {
+              Face.sampleMean = Face.response + getRandomElement([0, -10, +10]);
+            }
+
+          Face.pos = Face.sampleSD.responseJSON[Face.sampleMean];//get an array of face index from JSON
+
 
   return [
-    ['img/'+ Face.personX +(Face.emotionX + Face.pos[1]) + '.jpg', 'img/'+ Face.personX +(Face.emotionX + Face.pos[2]) + '.jpg',
-     'img/'+ Face.personX +(Face.emotionX + Face.pos[3]) + '.jpg', 'img/'+ Face.personX +(Face.emotionX + Face.pos[4]) + '.jpg'],
-    ['img/'+ Face.personX +(Face.emotionX + Face.pos[5]) + '.jpg', 'img/'+ Face.personX +(Face.emotionX + Face.pos[6]) + '.jpg',
-     'img/'+ Face.personX +(Face.emotionX + Face.pos[7]) + '.jpg', 'img/'+ Face.personX +(Face.emotionX + Face.pos[8]) + '.jpg'],
-    ['img/'+ Face.personX +(Face.emotionX + Face.pos[9]) + '.jpg', 'img/'+ Face.personX +(Face.emotionX + Face.pos[10])+ '.jpg',
-     'img/'+ Face.personX +(Face.emotionX + Face.pos[11])+ '.jpg', 'img/'+ Face.personX +(Face.emotionX + Face.pos[12])+ '.jpg']
+    ['img/'+ Face.personX +(Face.emotionX + Face.pos[0] -100) + '.jpg', 'img/'+ Face.personX +(Face.emotionX + Face.pos[1]-100) + '.jpg',
+     'img/'+ Face.personX +(Face.emotionX + Face.pos[2] -100) + '.jpg', 'img/'+ Face.personX +(Face.emotionX + Face.pos[3]-100) + '.jpg'],
+    ['img/'+ Face.personX +(Face.emotionX + Face.pos[4] -100) + '.jpg', 'img/'+ Face.personX +(Face.emotionX + Face.pos[5]-100) + '.jpg',
+     'img/'+ Face.personX +(Face.emotionX + Face.pos[6] -100) + '.jpg', 'img/'+ Face.personX +(Face.emotionX + Face.pos[7]-100) + '.jpg'],
+    ['img/'+ Face.personX +(Face.emotionX + Face.pos[8] -100) + '.jpg', 'img/'+ Face.personX +(Face.emotionX + Face.pos[9]-100)+ '.jpg',
+     'img/'+ Face.personX +(Face.emotionX + Face.pos[10]-100)+ '.jpg', 'img/'+ Face.personX +(Face.emotionX + Face.pos[11]-100)+ '.jpg']
     ];
 }
 
 
 function getButtons() {
     var trialButtons = [
-    '<button class="jspsych-btn" style="color:white; font-size: 24px; padding: 26px ;background-color:black;position:fixed; left: 390px;top: 270px;width: 210px;box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.9);border-radius: 50%">%choice%</button>',
-    '<button class="jspsych-btn" style="color:white; font-size: 24px; padding: 26px ;background-color:red;position:fixed; left: 840px;top: 270px;width: 210px;box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.9);border-radius: 50%">%choice%</button>'
+    '<button class="jspsych-btn" style="color:white; font-size: 24px; padding: 26px ;background-color:black;position:absolute; left: 390px;top: 270px;width: 210px;box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.9);border-radius: 50%">%choice%</button>',
+    '<button class="jspsych-btn" style="color:white; font-size: 24px; padding: 26px ;background-color:red;position:absolute; left: 840px;top: 270px;width: 210px;box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.9);border-radius: 50%">%choice%</button>'
     ];
     myButtons = [];
     myButtons.push(trialButtons);

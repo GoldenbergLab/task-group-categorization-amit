@@ -30,7 +30,7 @@
    //get distributions of faces
    var face5sd =
      $.getJSON('https://web.stanford.edu/~amitgold/categorization_task/face_distribution_5sd.json', function(data) {
-   });
+   }); //the face distribution is in responseJSON
 
    var face10sd =
      $.getJSON('https://web.stanford.edu/~amitgold/categorization_task/face_distribution_10sd.json', function(data) {
@@ -64,7 +64,7 @@
       loop_function: function(data){
       var lasttrialdata = jsPsych.data.getLastTrialData().select('responses').values[0];
       var lasttrialdata2 = JSON.parse(lasttrialdata).Q0;
-      var patt = new RegExp("^[a-zA-Z_0-9]{1,}$"); //the first&last character
+      var patt = new RegExp("^[a-zA-Z_0-9]{1,}$"); //the first and last character
       if (!patt.test(lasttrialdata2)){      //test if first/last character in response exist
          alert("Please, enter your participant id");
           return true; }
@@ -95,41 +95,14 @@
         prompt: "<p>Estimate the average emotion of the faces you saw in the previous window</p>",
         step:1,
         max:40,
-        start:00,
-
-        on_finish: function(){
-          Face.realMean = jsPsych.data.getLastTrialData().select('responses').values[0];
-		  Face.sampleMean = Face.Mean + getRandomElement([0, -10, +10]);
-		  Face.sampleSD = getRandomElement([0, -5, +5])},
-
-		  //add function to select file
-
-
-
-        data: function(){
-          return {
-            Name: 'response',
-            fixationTime: Face.fixationTime,
-            faceIdentity: Face.personX,
-
-            //these data are from faceSample, I need define Sample first and display them✅, or move data to faceSample
-            pos1:(Face.emotionX + Face.pos[1]),   pos2:(Face.emotionX + Face.pos[2]),
-            pos3:(Face.emotionX + Face.pos[3]),   pos4:(Face.emotionX + Face.pos[4]),
-            pos5:(Face.emotionX + Face.pos[5]),   pos6:(Face.emotionX + Face.pos[6]),
-            pos7:(Face.emotionX + Face.pos[7]),   pos8:(Face.emotionX + Face.pos[8]),
-            pos9:(Face.emotionX + Face.pos[9]),   pos10:(Face.emotionX + Face.pos[10]),
-            pos11:(Face.emotionX + Face.pos[11]), pos12:(Face.emotionX + Face.pos[12]),
-           meanAgents: Face.emotionX +
-           (Face.pos[1]+Face.pos[2]+Face.pos[3]+Face.pos[4]+Face.pos[5]+Face.pos[6]+
-            Face.pos[7]+Face.pos[8]+Face.pos[9]+Face.pos[10]+Face.pos[11]+Face.pos[12])/16
-          }}
+        start:0
       };
 
 
     var facesSample = {                //we show face array based on participant's response
           type: 'vsl-grid-scene1',
           stimuli:  getFaceSample,  //for selection detail. see function.js
-          timing_duration: 1000,
+          //timing_duration: 1000,
           data: {Name:'facesSample'}
     };
 
@@ -139,6 +112,29 @@
       stimulus: '',
       choices: [' My Group ','Not My Group'],
       button_html: getButtons,
+      data: function(){
+          return {
+            Name: 'groupChoose',
+            fixationTime: Face.fixationTime,
+            faceIdentity: Face.personX,
+            rating: Face.response,
+
+            sampleSD: Face.recordSD,
+            sampleMean: Face.sampleMean,
+
+
+            //these data are from faceSample, I need define Sample first and display them✅, or move data to faceSample
+            pos1:(Face.emotionX + Face.pos[0]),   pos2:(Face.emotionX + Face.pos[1]),
+            pos3:(Face.emotionX + Face.pos[2]),   pos4:(Face.emotionX + Face.pos[3]),
+            pos5:(Face.emotionX + Face.pos[4]),   pos6:(Face.emotionX + Face.pos[5]),
+            pos7:(Face.emotionX + Face.pos[6]),   pos8:(Face.emotionX + Face.pos[7]),
+            pos9:(Face.emotionX + Face.pos[8]),   pos10:(Face.emotionX + Face.pos[9]),
+            pos11:(Face.emotionX + Face.pos[10]), pos12:(Face.emotionX + Face.pos[11]),
+
+           meanAgents: Face.emotionX +
+           (Face.pos[0]+Face.pos[1]+Face.pos[2]+Face.pos[3]+Face.pos[4]+Face.pos[5]+
+            Face.pos[6]+Face.pos[7]+Face.pos[8]+Face.pos[9]+Face.pos[10]+Face.pos[11])/12
+          }}
     };
 
 
@@ -157,21 +153,21 @@
      //collective_emotion_estimation.push(instructions)}
 
   var repeat = {        //conduct a practice round with two trials
-      timeline: [//fixation,stimuli,
+      timeline: [fixation,//stimuli,
       response,facesSample,button],
-      repetitions: 5,
+      repetitions: 6,
       randomize_order: true
   }
   collective_emotion_estimation.push(repeat);
-  collective_emotion_estimation.push(instructions); //diaplay last page of instruction
+  //collective_emotion_estimation.push(instructions); //diaplay last page of instruction
 
   var repeat = { //conduct the actual 50 tasks
       timeline: [fixation,stimuli,response,facesSample,button],
       repetitions: 10,
       randomize_order: true
   }
-  collective_emotion_estimation.push(repeat);
-  collective_emotion_estimation.push(connectSurvey);
+  //collective_emotion_estimation.push(repeat);
+  //collective_emotion_estimation.push(connectSurvey);
 
   /* start the experiment */
   jsPsych.init({
