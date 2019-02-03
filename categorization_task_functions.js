@@ -44,15 +44,6 @@ function getScale (){ //generate the rating scale depending on the person and va
       Face.personX+(Face.emotionX + 3*16)+ '.jpg', 'img/'+Face.personX+(Face.emotionX + 1*50)+ '.jpg']
 }
 
-function TestObject (name) {
-    return {
-        getObjectName: function() {
-            return name
-        }
-    };
-}
-
-
 
 function getFaceSample (){  //get the sample of faces in each trial
   //for kiki
@@ -60,7 +51,7 @@ function getFaceSample (){  //get the sample of faces in each trial
   //look at participant last rating
 
           Face.sampleSD  = getRandomElement([face5sd,face10sd]); //random select from SD=5 and SD=10,
-          Face.recordSD = TestObject(Face.sampleSD);
+          Face.recordSD = Face.sampleSD[0];
 
           trialData = jsPsych.data.get().last(1).filter({trial_type:'image-slider-response_noButton'}).values();
           Face.response = Number(trialData[0].response); //get response 
@@ -73,7 +64,7 @@ function getFaceSample (){  //get the sample of faces in each trial
               Face.sampleMean = Face.response + getRandomElement([0, -10, +10]);
             }
 
-          Face.pos = Face.sampleSD.responseJSON[Face.sampleMean];//get an array of face index from JSON
+          Face.pos = Face.sampleSD[1].responseJSON[Face.sampleMean];//get an array of face index from JSON
 
 
   return [

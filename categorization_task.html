@@ -29,12 +29,12 @@
 
    //get distributions of faces
    var face5sd =
-     $.getJSON('https://web.stanford.edu/~amitgold/categorization_task/face_distribution_5sd.json', function(data) {
-   }); //the face distribution is in responseJSON
+     [5,$.getJSON('https://web.stanford.edu/~amitgold/categorization_task/face_distribution_5sd.json', function(data) {
+   })]; //the face distribution is in responseJSON, the "5" and "10" are to record SD in data
 
    var face10sd =
-     $.getJSON('https://web.stanford.edu/~amitgold/categorization_task/face_distribution_10sd.json', function(data) {
-   });
+     [10,$.getJSON('https://web.stanford.edu/~amitgold/categorization_task/face_distribution_10sd.json', function(data) {
+   })];
 
   /******************************************/
   /* Set up Instructions */
@@ -76,8 +76,7 @@
       type: 'html-keyboard-response',
       stimulus: '<p style="font-size: 48px;">+</p>',
       trial_duration:  getFixationTime,  //transfer ms to s in units
-      data: function(){
-      return {Name:'fixation'}}
+      data: {Name:'fixation'}
   };
 
   var stimuli = {
@@ -85,7 +84,8 @@
     stimulus: getFigure,
     choices: [],
     trial_duration : 1000,
-    prompt: ""
+    prompt: "",
+    data: {Name:'stimuli'}
   };
 
 
@@ -95,15 +95,16 @@
         prompt: "<p>Estimate the average emotion of the faces you saw in the previous window</p>",
         step:1,
         max:40,
-        start:0
+        start:0,
+        data: {Name:'scale'}
       };
 
 
     var facesSample = {                //we show face array based on participant's response
           type: 'vsl-grid-scene1',
           stimuli:  getFaceSample,  //for selection detail. see function.js
-          //timing_duration: 1000,
-          data: {Name:'facesSample'}
+          timing_duration: 1000,
+          data: {Name:'array'}
     };
 
 
@@ -114,7 +115,7 @@
       button_html: getButtons,
       data: function(){
           return {
-            Name: 'groupChoose',
+            Name: 'buttonResponse',
             fixationTime: Face.fixationTime,
             faceIdentity: Face.personX,
             rating: Face.response,
@@ -148,14 +149,14 @@
   /* create experiment definition array */
 
   var collective_emotion_estimation = []; //display instructions
-  //collective_emotion_estimation.push(participant_id)
-  //for (var i = 0; i < slideList.length-2; i++) {
-     //collective_emotion_estimation.push(instructions)}
+  collective_emotion_estimation.push(participant_id)
+  for (var i = 0; i < slideList.length-2; i++) {
+     collective_emotion_estimation.push(instructions)}
 
   var repeat = {        //conduct a practice round with two trials
-      timeline: [//fixation,//stimuli,
+      timeline: [fixation,//stimuli,
       response,facesSample,button],
-      repetitions: 2,
+      repetitions: 3,
       randomize_order: true
   }
   collective_emotion_estimation.push(repeat);
@@ -163,11 +164,11 @@
 
   var repeat = { //conduct the actual 50 tasks
       timeline: [fixation,stimuli,response,facesSample,button],
-      repetitions: 10,
+      repetitions: 3,
       randomize_order: true
   }
   //collective_emotion_estimation.push(repeat);
-  //collective_emotion_estimation.push(connectSurvey);
+  collective_emotion_estimation.push(connectSurvey);
 
   /* start the experiment */
   jsPsych.init({
