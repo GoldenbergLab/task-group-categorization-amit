@@ -28,9 +28,7 @@ function getScale (){ //generate the rating scale depending on the person and va
   Face.emotionX = getRandomElement([50, 100]); //randomly choose from negative and postive emotion
   //choose the identity of the face
   Face.personX = getRandomElement(['A','B','C','D']);//randomally choose from ['A','B','C','D'] -- select person
-  //define 16 faces in the face array
-  for (i = 1; i < 17; i++) {
-    Face.pos[i] = getRandomInt(1,50)};
+
 
   return ['img/'+
       Face.personX+(Face.emotionX + 3*0) + '.jpg', 'img/'+Face.personX+(Face.emotionX + 3*1) + '.jpg', 'img/'+
@@ -80,8 +78,8 @@ function getFaceSample (){  //get the sample of faces in each trial
 
 function getButtons() {
     var trialButtons = [
-    '<button class="jspsych-btn" style="color:white; font-size: 24px; padding: 26px ;background-color:black;position:absolute; left: 390px;top: 270px;width: 210px;box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.9);border-radius: 50%">%choice%</button>',
-    '<button class="jspsych-btn" style="color:white; font-size: 24px; padding: 26px ;background-color:red;position:absolute; left: 840px;top: 270px;width: 210px;box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.9);border-radius: 50%">%choice%</button>'
+    '<button class="jspsych-btn" style="color:white; font-size: 24px; padding: 26px ;background-color:black; position: fixed; left:25%;top:40%; width: 210px;box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.9);border-radius: 50%">%choice%</button>',
+    '<button class="jspsych-btn" style="color:white; font-size: 24px; padding: 26px ;background-color:red;position: fixed; left:62%;top:40%;width: 210px;box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.9);border-radius: 50%">%choice%</button>'
     ];
     myButtons = [];
     myButtons.push(trialButtons);
