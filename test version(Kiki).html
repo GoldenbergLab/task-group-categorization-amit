@@ -113,12 +113,14 @@
       stimulus: '',
       choices: [' My Group ','Not My Group'],
       button_html: getButtons,
-      data: function(){
+      on_finish: function(data){
           return {
             Name: 'buttonResponse',
             fixationTime: Face.fixationTime,
             faceIdentity: Face.personX,
             rating: Face.response,
+            ratingTime:(jsPsych.data.get().last(3).values()[0]).rt,
+            buttonTime:(jsPsych.data.get().last(1).values()[0]).rt,
 
             sampleSD: Face.recordSD,
             sampleMean: Face.sampleMean,

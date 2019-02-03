@@ -119,6 +119,7 @@
             fixationTime: Face.fixationTime,
             faceIdentity: Face.personX,
             rating: Face.response,
+            ratingTime:(jsPsych.data.get().last(2).values())[0].rt,
 
             sampleSD: Face.recordSD,
             sampleMean: Face.sampleMean,

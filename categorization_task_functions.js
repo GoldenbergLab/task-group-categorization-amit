@@ -53,15 +53,15 @@ function getFaceSample (){  //get the sample of faces in each trial
           Face.sampleSD  = getRandomElement([face5sd,face10sd]); //random select from SD=5 and SD=10,
           Face.recordSD = Face.sampleSD[0];
 
-          trialData = jsPsych.data.get().last(1).filter({trial_type:'image-slider-response_noButton'}).values();
-          Face.response = Number(trialData[0].response); //get response 
+          ratingTrialData = jsPsych.data.get().last(1).filter({trial_type:'image-slider-response_noButton'}).values();
+          Face.rating = Number(ratingTrialData[0].response); //get rating 
 
-          if ( Face.response < 21) {  //if you rated the picture between 10-20 you can only be assigned to the same or higher condition
-              Face.sampleMean = Face.response + 10;
-            } else if (Face.response > 30) {   //If you rated the picture between 30 to 40 you can only be assigned to lower or same
-              Face.sampleMean = Face.response - 10;
+          if ( Face.rating < 21) {  //if you rated the picture between 10-20 you can only be assigned to the same or higher condition
+              Face.sampleMean = Face.rating + 10;
+            } else if (Face.rating > 30) {   //If you rated the picture between 30 to 40 you can only be assigned to lower or same
+              Face.sampleMean = Face.rating - 10;
             } else {
-              Face.sampleMean = Face.response + getRandomElement([0, -10, +10]);
+              Face.sampleMean = Face.rating + getRandomElement([0, -10, +10]);
             }
 
           Face.pos = Face.sampleSD[1].responseJSON[Face.sampleMean];//get an array of face index from JSON
