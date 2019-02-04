@@ -29,6 +29,7 @@
   var slideList = ['img/ins/Slide.png','img/ins/Slide 2.png','img/ins/Slide 3.png','img/ins/Slide 4.png',
                    'img/ins/Slide 5.png','img/ins/Slide 6.png','img/ins/Slide 7.png','img/ins/Slide 8.png',
                    'img/ins/Slide 9.png','img/ins/Slide 10.png'];//list of instructions slides
+
   var sortImage = {A1:'Rock',A2:'Pop',B1:'Big City',B2:'Small Town',C1:'Ice Cream',C2:'Hamburger',
                    D1:'At the Beach',D2:'At the Pool',E1:'Cat',E2:'Dog'};
 
@@ -132,7 +133,7 @@
             Name: 'buttonResponse',
             fixationTime: Face.fixationTime,
             faceIdentity: Face.personX,
-            rating: Face.response,
+            rating: (jsPsych.data.get().last(2).values())[0].response,
             ratingTime:(jsPsych.data.get().last(2).values())[0].rt,
 
             sampleSD: Face.recordSD,
@@ -162,7 +163,7 @@
   /* create experiment definition array */
 
   var collective_emotion_estimation = []; //display instructions
-  //collective_emotion_estimation.push(participant_id)
+  collective_emotion_estimation.push(participant_id)
 
   collective_emotion_estimation.push(instructions)
 
@@ -172,7 +173,7 @@
   }
   collective_emotion_estimation.push(sorting);
 
-    for (var i = 0; i < slideList.length-2; i++) {
+    for (var i = 0; i < slideList.length-3; i++) {
     collective_emotion_estimation.push(instructions)}
 
 
@@ -181,12 +182,13 @@
       repetitions: 4,
       randomize_order: true
   }
+
   collective_emotion_estimation.push(practice);
   collective_emotion_estimation.push(instructions); //diaplay last page of instruction
 
   var task = { //conduct the actual 50 tasks
       timeline: [fixation,stimulus,response,facesSample,button],
-      repetitions: 6,
+      repetitions: 3,
       randomize_order: true
   }
   collective_emotion_estimation.push(task);
