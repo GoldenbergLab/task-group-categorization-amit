@@ -7,7 +7,7 @@ function getRandomInt(min, max) {
 }
 
 function getRandomList (min, max){
-  for (var i = min2; i < (max2+1); i++){ 
+  for (var i = min2; i < (max2+1); i++){
     list.push(getRandomInt)}
 }
 
@@ -61,7 +61,6 @@ function getFixationTime (){  //get randomized time of fixation by randomly choo
 
 function getStimList(min1,max1,min2,max2) {  //min1:first index of practice stim, min1:first index of task stim
   var stims = [];
-
   for(var i = min2; i < (max2+1); i++){    //use loop to get a list of stimulus with sequential numbers in file names
       stims.push( 'stimuli/task' + '/1_0' + ("0" + i).slice(-2) + '.png')};//add task stims
   var stims = jsPsych.randomization.shuffle(stims);
@@ -77,8 +76,8 @@ function getStim (){
   return stim //get first stim
 }
 
-function getPositiveScale(){.  //only have positive emotions in scale
-  Face.emotionX = 50;    
+function getPositiveScale(){  //only have positive emotions in scale
+  Face.emotionX = 50;
   Face.personX = getRandomElement(['A','B','C','D']);
   return ['img/'+
       Face.personX+(Face.emotionX + 3*0) + '.jpg', 'img/'+Face.personX+(Face.emotionX + 3*1) + '.jpg', 'img/'+
@@ -122,7 +121,7 @@ function getFaceSample (){  //get the sample of faces in each trial
           Face.recordSD = Face.sampleSD[0];
 
           ratingTrialData = jsPsych.data.get().last(1).filter({trial_type:'image-slider-response_noButton'}).values();
-          Face.rating = Number(ratingTrialData[0].response); //get rating 
+          Face.rating = Number(ratingTrialData[0].response); //get rating
 
           if ( Face.rating < 21) {  //if you rated the picture between 10-20 you can only be assigned to the same or higher condition
               Face.sampleMean = Face.rating + getRandomElement([0, +10]);
