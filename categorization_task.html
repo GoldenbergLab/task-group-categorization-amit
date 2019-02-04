@@ -28,13 +28,17 @@
                    'img/ins/Slide 5.png','img/ins/Slide 6.png','img/ins/Slide 7.png','img/ins/Slide 8.png'];//list of instructions slides
 
    //get distributions of faces
-   var face5sd =
+  var face5sd =
      [5,$.getJSON('https://web.stanford.edu/~amitgold/categorization_task/face_distribution_5sd.json', function(data) {
    })]; //the face distribution is in responseJSON, the "5" and "10" are to record SD in data
 
-   var face10sd =
+  var face10sd =
      [10,$.getJSON('https://web.stanford.edu/~amitgold/categorization_task/face_distribution_10sd.json', function(data) {
    })];
+
+  
+  var practiceStims = getStimList('practice',1,4);  //return a randomized list of stim
+  var taskStims = getStimList('task',1,50); 
 
   /******************************************/
   /* Set up Instructions */
@@ -82,7 +86,7 @@
 
   var practiceStim = {
     type: 'image-button-response',
-    stimulus: getPracStim,
+    stimulus: function (){return getStim(practiceStims)},
     choices: [],
     trial_duration : 1000,
     prompt: "",
@@ -92,7 +96,7 @@
 
   var taskStim = {
     type: 'image-button-response',
-    stimulus: getTaskStim,
+    stimulus: function (){return getStim(taskStims)},
     choices: [],
     trial_duration : 1000,
     prompt: "",
@@ -160,12 +164,13 @@
   /* create experiment definition array */
 
   var collective_emotion_estimation = []; //display instructions
-  collective_emotion_estimation.push(participant_id)
-  for (var i = 0; i < slideList.length-2; i++) {
-     collective_emotion_estimation.push(instructions)}
+  //collective_emotion_estimation.push(participant_id)
+  //for (var i = 0; i < slideList.length-2; i++) {
+    // collective_emotion_estimation.push(instructions)}
 
   var repeat = {        //conduct a practice round with two trials
-      timeline: [fixation,practiceStim,response,facesSample,button],
+      timeline: [fixation,practiceStim//,response,facesSample,button
+      ],
       repetitions: 3,
       randomize_order: true
   }

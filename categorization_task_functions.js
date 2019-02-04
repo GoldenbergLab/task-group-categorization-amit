@@ -16,36 +16,20 @@ function getFixationTime (){  //get randomized time of fixation by randomly choo
 }
 
 
-var practice_path = 'img/practice/'
-var practiceStims = [
-    '001.png',
-    '002.png',
-    '003.png'
-    ]
+function getStimList(type,min,max) {  //type: practice/task, min:first index of stimulus, max:last index of stimulus
+  var stims =[ ];  //list of stimulus
+  for(var i = min; i < max; i++){    //use loop to get a list of stimulus with sequential numbers in file names
+      stims.push( 'stimuli/' + type + '/1_0' + ("0"+i).slice(-2) + '.png')};//we can change here based on file names
 
-//manipulation of stimuuli
-var pracStims = jsPsych.randomization.shuffle(practiceStims); //shuffle stims for practice
+  var shuffledStims = jsPsych.randomization.shuffle(stims);    
+  return shuffledStims;
+}
 
-var getPracStim = function() { //get stimuli for practice
-    var curr_stim = pracStims.pop()
-    var stim = practice_path + curr_stim //add the path the stim
-    return stim;
-  }
 
-var base_path = 'stimuli/'
-var taskStims = [
-    '001.png',
-    '002.png',
-    '003.png'
-    ]
-
-var taskStims = jsPsych.randomization.shuffle(taskStims); //shuffle stims for actual task
-
-var getTaskStim = function() { //function to get the first stimuli
-    var curr_stim = taskStims.pop()
-    var stim = base_path + curr_stim //add the path the stim
-    return stim;
-  }
+function getStim (stims){
+  var stim =  stims.pop();
+  return stim //get first stim
+}
 
 
 
