@@ -26,9 +26,11 @@
   Face.pos = [ ];  // (3)record data of 12 faces' data in face array
   Face.stims = getStimList(1,4,1,50);  //return a randomized list of stim including practice and task stimulus //can change number
   
-  var slideList = ['img/ins/Slide 1.png','img/ins/Slide 2.png','img/ins/Slide 3.png','img/ins/Slide 4.png',
-                   'img/ins/Slide 5.png','img/ins/Slide 6.png','img/ins/Slide 7.png','img/ins/Slide 8.png'];//list of instructions slides
-  Face.sortImage = ['Rock','Pop','Big City','Small Town','Ice Cream','Hamburger','Beach','Pool','Cat','Dog']
+  var slideList = ['img/ins/Slide.png','img/ins/Slide 2.png','img/ins/Slide 3.png','img/ins/Slide 4.png',
+                   'img/ins/Slide 5.png','img/ins/Slide 6.png','img/ins/Slide 7.png','img/ins/Slide 8.png',
+                   'img/ins/Slide 9.png','img/ins/Slide 10.png'];//list of instructions slides
+  var sortImage = {A1:'Rock',A2:'Pop',B1:'Big City',B2:'Small Town',C1:'Ice Cream',C2:'Hamburger',
+                   D1:'At the Beach',D2:'At the Pool',E1:'Cat',E2:'Dog'};
 
   //get distributions of faces
   var face5sd =
@@ -44,11 +46,11 @@
   /* Set up Instructions */
   /******************************************/
 
-  var instructions = {
+  var instructions = { //10 slides: 1:sorting, 2-8:before prac, 9:before real, 10:end
       type: "image-button-response",
       stimulus: getNextSlide,
       choices: ['Continue'],
-      margin_vertical: '10px',
+      button_html: insButton,
       data: {Name:'instructions'}
     };
 
@@ -65,14 +67,7 @@
 
   var participant_id = {
       timeline: [enter_id],
-      loop_function: function(data){
-      var lasttrialdata = jsPsych.data.getLastTrialData().select('responses').values[0];
-      var lasttrialdata2 = JSON.parse(lasttrialdata).Q0;
-      var patt = new RegExp("^[a-zA-Z_0-9]{1,}$"); //the first and last character
-      if (!patt.test(lasttrialdata2)){      //test if first/last character in response exist
-         alert("Please, enter your participant id");
-          return true; }
-          else{ return false;} },
+      loop_function: checkID,
       };
 
 
@@ -80,13 +75,12 @@
     type: 'html-button-response',
     stimulus: getSortImage, 
     button_html: optionButton,
-    choices: function(){ 
-      Face.sort1 = Face.sortImage[0],
-      Face.sort2 = Face.sortImage[1];
-      return [Face.sort1, Face.sort2]},
+    choices: getOptions,
     //prompt:getPrompt,
     on_finish:function(){
-        Face.sortImage.splice(0,2);},
+        delete sortImage[Object.keys(sortImage)[0]];
+        delete sortImage[Object.keys(sortImage)[0]];
+        return sortImage},
     data: {Name: 'sorting'}
   };
 
@@ -169,14 +163,17 @@
 
   var collective_emotion_estimation = []; //display instructions
   //collective_emotion_estimation.push(participant_id)
-  //for (var i = 0; i < slideList.length-2; i++) {
-  //  collective_emotion_estimation.push(instructions)}
+
+  collective_emotion_estimation.push(instructions)
 
   var sorting = {        //conduct a practice round with two trials
       timeline: [sort],
-      repetitions: 5
+      repetitions: Object.keys(sortImage).length/2
   }
   collective_emotion_estimation.push(sorting);
+
+    for (var i = 0; i < slideList.length-2; i++) {
+    collective_emotion_estimation.push(instructions)}
 
 
   var practice = {        //conduct a practice round with two trials

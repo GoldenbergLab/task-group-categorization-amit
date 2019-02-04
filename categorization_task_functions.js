@@ -15,17 +15,37 @@ function getRandomElement (list){
   return list[Math.floor(Math.random()*list.length)];
 }
 
+function checkID (){
+      var lasttrialdata = jsPsych.data.getLastTrialData().select('responses').values[0];
+      var lasttrialdata2 = JSON.parse(lasttrialdata).Q0;
+      var patt = new RegExp("^[a-zA-Z_0-9]{1,}$"); //the first and last character
+      if (!patt.test(lasttrialdata2)){      //test if first/last character in response exist
+         alert("Please, enter your participant id");
+          return true; }
+          else{ return false;} }
+
+function insButton(){
+  var trialButtons = [
+    '<button class="jspsych-btn" style="font-size: 20px; width: 160px;position: fixed;left:43%;top:90%;box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.9)">%choice%</button>']
+    myButtons = [];
+    myButtons.push(trialButtons);
+    //alert (myButtons)
+    return myButtons[myButtons.length -1];
+  }
+
 function getSortImage(){
-  var sort1 = Face.sortImage[0];
-  var sort2 = Face.sortImage[1];
-  stim = '<img src=img/sort/'+ sort1+'.jpg>  <img src=img/sort/'+ sort2+'.jpg>';
+  stim = '<img src=img/sort/'+ Object.keys(sortImage)[0] +'.jpg style="margin:30px">'+
+         '<img src=img/sort/'+ Object.keys(sortImage)[1]+'.jpg style="margin:30px">';
   return stim
 }
 
+function getOptions(){
+  return [Object.values(sortImage)[0], Object.values(sortImage)[1]]};
+
 function optionButton(){
   var trialButtons = [
-    '<button class="jspsych-btn" style="font-size: 24px; padding: 20px ; position: fixed; left:27%;top:80%; width: 160px;box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.9);border-radius: 50%">%choice%</button>',
-    '<button class="jspsych-btn" style="font-size: 24px; padding: 20px ; position: fixed; left:62%;top:80%; width: 160px;box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.9);border-radius: 50%">%choice%</button>'
+    '<button class="jspsych-btn" style="font-size: 24px; padding: 20px ; position: fixed; left:29%;top:80%; width: 165px;box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.9);border-radius: 50%">%choice%</button>',
+    '<button class="jspsych-btn" style="font-size: 24px; padding: 20px ; position: fixed; left:62%;top:80%; width: 165px;box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.9);border-radius: 50%">%choice%</button>'
     ];
     myButtons = [];
     myButtons.push(trialButtons);
