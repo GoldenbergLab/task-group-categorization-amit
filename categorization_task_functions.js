@@ -16,17 +16,15 @@ function getFixationTime (){  //get randomized time of fixation by randomly choo
 }
 
 
-var base_path = 'stimuli/'
 var practice_path = 'img/practice/'
-
-var unShuffledStims = [
+var practiceStims = [
     '001.png',
     '002.png',
     '003.png'
     ]
 
 //manipulation of stimuuli
-var pracStims = jsPsych.randomization.shuffle(unShuffledStims); //shuffle stims for practice
+var pracStims = jsPsych.randomization.shuffle(practiceStims); //shuffle stims for practice
 
 var getPracStim = function() { //get stimuli for practice
     var curr_stim = pracStims.pop()
@@ -34,7 +32,14 @@ var getPracStim = function() { //get stimuli for practice
     return stim;
   }
 
-var taskStims = jsPsych.randomization.shuffle(unShuffledStims); //shuffle stims for actual task
+var base_path = 'stimuli/'
+var taskStims = [
+    '001.png',
+    '002.png',
+    '003.png'
+    ]
+
+var taskStims = jsPsych.randomization.shuffle(taskStims); //shuffle stims for actual task
 
 var getTaskStim = function() { //function to get the first stimuli
     var curr_stim = taskStims.pop()
