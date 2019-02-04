@@ -80,9 +80,19 @@
   };
 
 
-  var stimuli = {
+  var practiceStim = {
     type: 'image-button-response',
-    stimulus: getFigure,
+    stimulus: getPracStim,
+    choices: [],
+    trial_duration : 1000,
+    prompt: "",
+    data: {Name:'stimuli'}
+  };
+
+
+  var taskStim = {
+    type: 'image-button-response',
+    stimulus: getTaskStim,
     choices: [],
     trial_duration : 1000,
     prompt: "",
@@ -150,12 +160,12 @@
   /* create experiment definition array */
 
   var collective_emotion_estimation = []; //display instructions
-  collective_emotion_estimation.push(participant_id)
-  for (var i = 0; i < slideList.length-2; i++) {
-     collective_emotion_estimation.push(instructions)}
+  //collective_emotion_estimation.push(participant_id)
+  //for (var i = 0; i < slideList.length-2; i++) {
+     //collective_emotion_estimation.push(instructions)}
 
   var repeat = {        //conduct a practice round with two trials
-      timeline: [fixation,stimuli,response,facesSample,button],
+      timeline: [fixation,practiceStim,response,facesSample,button],
       repetitions: 3,
       randomize_order: true
   }
@@ -163,7 +173,7 @@
   collective_emotion_estimation.push(instructions); //diaplay last page of instruction
 
   var repeat = { //conduct the actual 50 tasks
-      timeline: [fixation,stimuli,response,facesSample,button],
+      timeline: [fixation,taskStim,response,facesSample,button],
       repetitions: 3,
       randomize_order: true
   }

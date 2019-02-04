@@ -15,10 +15,32 @@ function getFixationTime (){  //get randomized time of fixation by randomly choo
   return Face.fixationTime;
 }
 
-function getFigure(){      //get images as stimulus
-  Face.figure = getRandomElement([1, 3]);
-  return 'stimuli/00'+ Face.figure + '.png';
-}
+
+var base_path = 'stimuli/'
+var practice_path = 'img/practice/'
+
+var unShuffledStims = [
+    '001.png',
+    '002.png',
+    '003.png'
+    ]
+
+//manipulation of stimuuli
+var pracStims = jsPsych.randomization.shuffle(unShuffledStims); //shuffle stims for practice
+
+var getPracStim = function() { //get stimuli for practice
+    var curr_stim = pracStims.pop()
+    var stim = practice_path + curr_stim //add the path the stim
+    return stim;
+  }
+
+var taskStims = jsPsych.randomization.shuffle(unShuffledStims); //shuffle stims for actual task
+
+var getTaskStim = function() { //function to get the first stimuli
+    var curr_stim = taskStims.pop()
+    var stim = base_path + curr_stim //add the path the stim
+    return stim;
+  }
 
 
 
