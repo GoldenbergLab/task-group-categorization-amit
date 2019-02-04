@@ -16,18 +16,22 @@ function getFixationTime (){  //get randomized time of fixation by randomly choo
 }
 
 
-function getStimList(type,min,max) {  //type: practice/task, min:first index of stimulus, max:last index of stimulus
+function getStimList(min1,max1,min2,max2) {  //min1:first index of practice stim, min1:first index of task stim
   var stims =[ ];  //list of stimulus
-  for(var i = min; i < (max+1); i++){    //use loop to get a list of stimulus with sequential numbers in file names
-      stims.push( 'stimuli/' + type + '/1_0' + ("0"+i).slice(-2) + '.png')};//we can change here based on file names
+
+  for(var i = min1; i < (max1+1); i++){    //use loop to get a list of stimulus with sequential numbers in file names
+      stims.push( 'stimuli/practice' + '/1_0' + ("0"+i).slice(-2) + '.png')};//add practice stims
+
+  for(var i = min1; i < (max2+1); i++){    //use loop to get a list of stimulus with sequential numbers in file names
+      stims.push( 'stimuli/task' + '/1_0' + ("0"+i).slice(-2) + '.png')};//add task stims
 
   var shuffledStims = jsPsych.randomization.shuffle(stims);    
   return shuffledStims;
 }
 
 
-function getStim (stims){
-  var stim =  stims.pop();
+function getStim (){
+  var stim =  Face.stims.pop();
   return stim //get first stim
 }
 

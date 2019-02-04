@@ -23,7 +23,8 @@
 
   var Face = {}; //create Face dictionary to (1)record fixation time, (2)make face sample and scale have the same person and valence in every trial
   Face.pos = [ ];  //define position as a list in Face dictionary to input randomly selected numbers that represent 16 positions
-
+  Face.stims = getStimList(1,4,1,50);  //return a randomized list of stim including practice and task stimulus //can change number
+  
   var slideList = ['img/ins/Slide 1.png','img/ins/Slide 2.png','img/ins/Slide 3.png','img/ins/Slide 4.png',
                    'img/ins/Slide 5.png','img/ins/Slide 6.png','img/ins/Slide 7.png','img/ins/Slide 8.png'];//list of instructions slides
 
@@ -36,9 +37,6 @@
      [10,$.getJSON('https://web.stanford.edu/~amitgold/categorization_task/face_distribution_10sd.json', function(data) {
    })];
 
-  
-  var practiceStims = getStimList('practice',1,4);  //return a randomized list of stim
-  var taskStims = getStimList('task',1,50); 
 
   /******************************************/
   /* Set up Instructions */
@@ -84,25 +82,14 @@
   };
 
 
-  var practiceStim = {
-    type: 'image-button-response',
-    stimulus: function (){return getStim(practiceStims)},
-    choices: [],
-    trial_duration : 1000,
-    prompt: "",
-    data: {Name:'stimuli'}
+  var stimulus = {
+     type: 'image-button-response',
+     stimulus: getStim,
+     choices: [],
+     trial_duration : 1000,
+     prompt: "",
+     data: {Name:'stimuli'}
   };
-
-
-  var taskStim = {
-    type: 'image-button-response',
-    stimulus: function (){return getStim(taskStims)},
-    choices: [],
-    trial_duration : 1000,
-    prompt: "",
-    data: {Name:'stimuli'}
-  };
-
 
   var response = {
         type: 'image-slider-response_noButton',
@@ -116,15 +103,15 @@
       };
 
 
-    var facesSample = {                //we show face array based on participant's response
-          type: 'vsl-grid-scene1',
-          stimuli:  getFaceSample,  //for selection detail. see function.js
-          timing_duration: 1000,
-          data: {Name:'array'}
+  var facesSample = {                //we show face array based on participant's response
+        type: 'vsl-grid-scene1',
+        stimuli:  getFaceSample,  //for selection detail. see function.js
+        timing_duration: 1000,
+        data: {Name:'array'}
     };
 
 
-	var button = {
+  var button = {
       type: 'image-button-response',
       stimulus: '',
       choices: [' My Group ','Not My Group'],
@@ -169,7 +156,7 @@
     collective_emotion_estimation.push(instructions)}
 
   var repeat = {        //conduct a practice round with two trials
-      timeline: [fixation,practiceStim,response,facesSample,button],
+      timeline: [fixation,stimulus,response,facesSample,button],
       repetitions: 4,
       randomize_order: true
   }
@@ -177,7 +164,7 @@
   collective_emotion_estimation.push(instructions); //diaplay last page of instruction
 
   var repeat = { //conduct the actual 50 tasks
-      timeline: [fixation,taskStim,response,facesSample,button],
+      timeline: [fixation,stimulus,response,facesSample,button],
       repetitions: 6,
       randomize_order: true
   }
