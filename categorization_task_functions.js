@@ -18,7 +18,7 @@ function getFixationTime (){  //get randomized time of fixation by randomly choo
 
 function getStimList(type,min,max) {  //type: practice/task, min:first index of stimulus, max:last index of stimulus
   var stims =[ ];  //list of stimulus
-  for(var i = min; i < max; i++){    //use loop to get a list of stimulus with sequential numbers in file names
+  for(var i = min; i < (max+1); i++){    //use loop to get a list of stimulus with sequential numbers in file names
       stims.push( 'stimuli/' + type + '/1_0' + ("0"+i).slice(-2) + '.png')};//we can change here based on file names
 
   var shuffledStims = jsPsych.randomization.shuffle(stims);    
