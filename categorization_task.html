@@ -164,14 +164,14 @@
   /* create experiment definition array */
 
   var collective_emotion_estimation = []; //display instructions
-  //collective_emotion_estimation.push(participant_id)
-  //for (var i = 0; i < slideList.length-2; i++) {
-    // collective_emotion_estimation.push(instructions)}
+  collective_emotion_estimation.push(participant_id)
+  for (var i = 0; i < slideList.length-2; i++) {
+    collective_emotion_estimation.push(instructions)}
 
   var repeat = {        //conduct a practice round with two trials
       timeline: [fixation,practiceStim//,response,facesSample,button
       ],
-      repetitions: 3,
+      repetitions: 4,
       randomize_order: true
   }
   collective_emotion_estimation.push(repeat);
@@ -179,7 +179,7 @@
 
   var repeat = { //conduct the actual 50 tasks
       timeline: [fixation,taskStim,response,facesSample,button],
-      repetitions: 3,
+      repetitions: 6,
       randomize_order: true
   }
   collective_emotion_estimation.push(repeat);
