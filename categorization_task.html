@@ -5,6 +5,7 @@
     <title>categorization_task</title>
     <script src="jspsych-6.0.5/jspsych.js"></script>
     <script src="jspsych-6.0.5/plugins/jspsych-image-button-response.js"></script>
+    <script src="jspsych-6.0.5/plugins/jspsych-html-button-response.js"></script>
     <script src="jspsych-6.0.5/plugins/jspsych-survey-text.js"></script>
     <script src="jspsych-6.0.5/plugins/jspsych-html-keyboard-response.js"></script>
     <script src="jspsych-6.0.5/plugins/jspsych-image-slider-response_noButton.js"></script>
@@ -27,8 +28,9 @@
   
   var slideList = ['img/ins/Slide 1.png','img/ins/Slide 2.png','img/ins/Slide 3.png','img/ins/Slide 4.png',
                    'img/ins/Slide 5.png','img/ins/Slide 6.png','img/ins/Slide 7.png','img/ins/Slide 8.png'];//list of instructions slides
+  Face.sortImage = ['Rock','Pop','Big City','Small Town','Ice Cream','Hamburger','Beach','Pool','Cat','Dog']
 
-   //get distributions of faces
+  //get distributions of faces
   var face5sd =
      [5,$.getJSON('https://web.stanford.edu/~amitgold/categorization_task/face_distribution_5sd.json', function(data) {
    })]; //the face distribution is in responseJSON, the "5" and "10" are to record SD in data
@@ -72,6 +74,21 @@
           return true; }
           else{ return false;} },
       };
+
+
+  var sort = {
+    type: 'html-button-response',
+    stimulus: getSortImage, 
+    button_html: optionButton,
+    choices: function(){ 
+      Face.sort1 = Face.sortImage[0],
+      Face.sort2 = Face.sortImage[1];
+      return [Face.sort1, Face.sort2]},
+    //prompt:getPrompt,
+    on_finish:function(){
+        Face.sortImage.splice(0,2);},
+    data: {Name: 'sorting'}
+  };
 
 
   var fixation = {
@@ -151,24 +168,31 @@
   /* create experiment definition array */
 
   var collective_emotion_estimation = []; //display instructions
-  collective_emotion_estimation.push(participant_id)
-  for (var i = 0; i < slideList.length-2; i++) {
-    collective_emotion_estimation.push(instructions)}
+  //collective_emotion_estimation.push(participant_id)
+  //for (var i = 0; i < slideList.length-2; i++) {
+  //  collective_emotion_estimation.push(instructions)}
 
-  var repeat = {        //conduct a practice round with two trials
+  var sorting = {        //conduct a practice round with two trials
+      timeline: [sort],
+      repetitions: 5
+  }
+  collective_emotion_estimation.push(sorting);
+
+
+  var practice = {        //conduct a practice round with two trials
       timeline: [fixation,stimulus,response,facesSample,button],
       repetitions: 4,
       randomize_order: true
   }
-  collective_emotion_estimation.push(repeat);
+  collective_emotion_estimation.push(practice);
   collective_emotion_estimation.push(instructions); //diaplay last page of instruction
 
-  var repeat = { //conduct the actual 50 tasks
+  var task = { //conduct the actual 50 tasks
       timeline: [fixation,stimulus,response,facesSample,button],
       repetitions: 6,
       randomize_order: true
   }
-  collective_emotion_estimation.push(repeat);
+  collective_emotion_estimation.push(task);
   collective_emotion_estimation.push(connectSurvey);
 
   /* start the experiment */

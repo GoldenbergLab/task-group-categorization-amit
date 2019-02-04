@@ -15,6 +15,24 @@ function getRandomElement (list){
   return list[Math.floor(Math.random()*list.length)];
 }
 
+function getSortImage(){
+  var sort1 = Face.sortImage[0];
+  var sort2 = Face.sortImage[1];
+  stim = '<img src=img/sort/'+ sort1+'.jpg>  <img src=img/sort/'+ sort2+'.jpg>';
+  return stim
+}
+
+function optionButton(){
+  var trialButtons = [
+    '<button class="jspsych-btn" style="font-size: 24px; padding: 20px ; position: fixed; left:27%;top:80%; width: 160px;box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.9);border-radius: 50%">%choice%</button>',
+    '<button class="jspsych-btn" style="font-size: 24px; padding: 20px ; position: fixed; left:62%;top:80%; width: 160px;box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.9);border-radius: 50%">%choice%</button>'
+    ];
+    myButtons = [];
+    myButtons.push(trialButtons);
+    //alert (myButtons)
+    return myButtons[myButtons.length -1];
+  }
+
 function getFixationTime (){  //get randomized time of fixation by randomly choosing from 0.5, 1 and 1.5s
   Face.fixationTime = getRandomElement([500, 1000, 1500]);
   return Face.fixationTime;
