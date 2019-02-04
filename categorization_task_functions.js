@@ -42,7 +42,7 @@ function getStim (){
 function getScale (){ //generate the rating scale depending on the person and valence randomly chosen in faceArray
 
   //choose positive or negative valence
-  Face.emotionX = getRandomElement([50, 100]); //randomly choose from negative and postive emotion
+  Face.emotionX = getRandomElement([50]); //randomly choose from negative(50) and postive(100) emotion
   //choose the identity of the face
   Face.personX = getRandomElement(['A','B','C','D']);//randomally choose from ['A','B','C','D'] -- select person
 
