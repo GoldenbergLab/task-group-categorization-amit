@@ -6,6 +6,11 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random()*(max - min + 1) + min);
 }
 
+function getRandomList (min, max){
+  for (var i = min2; i < (max2+1); i++){ 
+    list.push(getRandomInt)}
+}
+
 function getRandomElement (list){
   return list[Math.floor(Math.random()*list.length)];
 }
@@ -17,16 +22,15 @@ function getFixationTime (){  //get randomized time of fixation by randomly choo
 
 
 function getStimList(min1,max1,min2,max2) {  //min1:first index of practice stim, min1:first index of task stim
-  var stims =[ ];  //list of stimulus
+  var stims = [];
+
+  for(var i = min2; i < (max2+1); i++){    //use loop to get a list of stimulus with sequential numbers in file names
+      stims.push( 'stimuli/task' + '/1_0' + ("0" + i).slice(-2) + '.png')};//add task stims
+  var stims = jsPsych.randomization.shuffle(stims);
 
   for(var i = min1; i < (max1+1); i++){    //use loop to get a list of stimulus with sequential numbers in file names
-      stims.push( 'stimuli/practice' + '/1_0' + ("0"+i).slice(-2) + '.png')};//add practice stims
-
-  for(var i = min1; i < (max2+1); i++){    //use loop to get a list of stimulus with sequential numbers in file names
-      stims.push( 'stimuli/task' + '/1_0' + ("0"+i).slice(-2) + '.png')};//add task stims
-
-  var shuffledStims = jsPsych.randomization.shuffle(stims);    
-  return shuffledStims;
+      stims.push( 'stimuli/practice' + '/1_0' + ("0" + i).slice(-2) + '.png')};//add practice stims
+  return stims;
 }
 
 
@@ -34,8 +38,6 @@ function getStim (){
   var stim =  Face.stims.pop();
   return stim //get first stim
 }
-
-
 
 function getScale (){ //generate the rating scale depending on the person and valence randomly chosen in faceArray
 

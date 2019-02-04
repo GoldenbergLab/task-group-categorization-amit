@@ -22,7 +22,7 @@
   /* ************************************ */
 
   var Face = {}; //create Face dictionary to (1)record fixation time, (2)make face sample and scale have the same person and valence in every trial
-  Face.pos = [ ];  //define position as a list in Face dictionary to input randomly selected numbers that represent 16 positions
+  Face.pos = [ ];  // (3)record data of 12 faces' data in face array
   Face.stims = getStimList(1,4,1,50);  //return a randomized list of stim including practice and task stimulus //can change number
   
   var slideList = ['img/ins/Slide 1.png','img/ins/Slide 2.png','img/ins/Slide 3.png','img/ins/Slide 4.png',
