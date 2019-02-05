@@ -39,8 +39,8 @@ function getOptions(){
 
 function optionButton(){
   var trialButtons = [
-    '<button class="jspsych-btn" style="font-size: 24px; padding: 20px ; position: fixed; left:29%;top:80%; width: 170px;box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.9);border-radius: 80%">%choice%</button>',
-    '<button class="jspsych-btn" style="font-size: 24px; padding: 20px ; position: fixed; left:62%;top:80%; width: 170px;box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.9);border-radius: 80%">%choice%</button>'
+    '<button class="jspsych-btn" style="font-size: 24px; padding: 10px ; position: fixed; left:29%;top:80%; width: 170px;box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.9);border-radius: 80%">%choice%</button>',
+    '<button class="jspsych-btn" style="font-size: 24px; padding: 10px ; position: fixed; left:62%;top:80%; width: 170px;box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.9);border-radius: 80%">%choice%</button>'
     ];
     myButtons = [];
     myButtons.push(trialButtons);
