@@ -33,6 +33,8 @@
   var sortImage = {A1:'Rock',A2:'Pop',B1:'Big City',B2:'Small Town',C1:'Ice Cream',C2:'Hamburger',
                    D1:'At the Beach',D2:'At the Pool',E1:'Cat',E2:'Dog'};
 
+  var sortPrompt = ['What kind of music do you prefer?','Where would you prefer to live?','What do you prefer to eat?','Where do you prefer to spend time?','Which pet do you prefer?'];
+
   //get distributions of faces
   var face5sd =
      [5,$.getJSON('https://web.stanford.edu/~amitgold/categorization_task/face_distribution_5sd.json', function(data) {
@@ -51,7 +53,7 @@
       type: "image-button-response",
       stimulus: getNextSlide,
       choices: ['Continue'],
-      button_html: insButton,
+      margin_vertical:'30px',
       data: {Name:'instructions'}
     };
 
@@ -60,24 +62,23 @@
   /******************************************/
   var enter_id = {
       type: 'survey-text',
-      questions: [{prompt: "Please enter your participant id"}],
+      questions: [{prompt: 'Please enter your participant id'}],
       on_finish: function(data){
-        Face.ID = JSON.parse(data.responses).Q0; // save id as global variable
-        jsPsych.data.addProperties({participant_id: Face.ID}); // add the participant column to all current and future data entries
+        Face.ID = JSON.parse(data.responses).Q0; //save id as global variable
+        jsPsych.data.addProperties({participant_id: Face.ID}); //add the participant column to all current and future data entries
       }};
 
-  var participant_id = {
+  var participant_id = { //to check if participants have entered ID (number/character, no punctuation allowed)
       timeline: [enter_id],
       loop_function: checkID,
-      };
+  };
 
-
-  var sort = {
+  var sort = {  //minimal group paradigm
     type: 'html-button-response',
     stimulus: getSortImage, 
     button_html: optionButton,
     choices: getOptions,
-    //prompt:getPrompt,
+    prompt:getPrompt,
     on_finish:function(){
         delete sortImage[Object.keys(sortImage)[0]];
         delete sortImage[Object.keys(sortImage)[0]];
@@ -163,7 +164,7 @@
   /* create experiment definition array */
 
   var collective_emotion_estimation = []; //display instructions
-  collective_emotion_estimation.push(participant_id)
+  //collective_emotion_estimation.push(participant_id)
 
   collective_emotion_estimation.push(instructions)
 

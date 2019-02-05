@@ -24,19 +24,14 @@ function checkID (){
           return true; }
           else{ return false;} }
 
-function insButton(){
-  var trialButtons = [
-    '<button class="jspsych-btn" style="font-size: 20px; width: 160px;position: fixed;left:43%;top:90%;box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.9)">%choice%</button>']
-    myButtons = [];
-    myButtons.push(trialButtons);
-    //alert (myButtons)
-    return myButtons[myButtons.length -1];
-  }
-
 function getSortImage(){
   stim = '<img src=img/sort/'+ Object.keys(sortImage)[0] +'.jpg style="margin:30px">'+
          '<img src=img/sort/'+ Object.keys(sortImage)[1]+'.jpg style="margin:30px">';
   return stim
+}
+
+function getPrompt(){
+  return sortPrompt.shift();
 }
 
 function getOptions(){
@@ -77,20 +72,6 @@ function getStim (){
   return stim //get first stim
 }
 
-function getPositiveScale(){.  //only have positive emotions in scale
-  Face.emotionX = 50;    
-  Face.personX = getRandomElement(['A','B','C','D']);
-  return ['img/'+
-      Face.personX+(Face.emotionX + 3*0) + '.jpg', 'img/'+Face.personX+(Face.emotionX + 3*1) + '.jpg', 'img/'+
-      Face.personX+(Face.emotionX + 3*2) + '.jpg', 'img/'+Face.personX+(Face.emotionX + 3*3) + '.jpg', 'img/'+
-      Face.personX+(Face.emotionX + 3*4) + '.jpg', 'img/'+Face.personX+(Face.emotionX + 3*5) + '.jpg', 'img/'+
-      Face.personX+(Face.emotionX + 3*6) + '.jpg', 'img/'+Face.personX+(Face.emotionX + 3*7) + '.jpg', 'img/'+
-      Face.personX+(Face.emotionX + 3*8) + '.jpg', 'img/'+Face.personX+(Face.emotionX + 3*9) + '.jpg', 'img/'+
-      Face.personX+(Face.emotionX + 3*10)+ '.jpg', 'img/'+Face.personX+(Face.emotionX + 3*11)+ '.jpg', 'img/'+
-      Face.personX+(Face.emotionX + 3*12)+ '.jpg', 'img/'+Face.personX+(Face.emotionX + 3*13)+ '.jpg', 'img/'+
-      Face.personX+(Face.emotionX + 3*14)+ '.jpg', 'img/'+Face.personX+(Face.emotionX + 3*15)+ '.jpg', 'img/'+
-      Face.personX+(Face.emotionX + 3*16)+ '.jpg', 'img/'+Face.personX+(Face.emotionX + 1*50)+ '.jpg']
-}
 
 function getScale (){ //generate the rating scale depending on the person and valence randomly chosen in faceArray
 
@@ -114,11 +95,8 @@ function getScale (){ //generate the rating scale depending on the person and va
 
 
 function getFaceSample (){  //get the sample of faces in each trial
-  //for kiki
-  //add code to randomize the condtion (mean - lower, same, higher, SD - 5 or 10)
-  //look at participant last rating
 
-          Face.sampleSD  = getRandomElement([face5sd,face10sd]); //random select from SD=5 and SD=10,
+          Face.sampleSD = getRandomElement([face5sd,face10sd]); //random select from SD=5 and SD=10,
           Face.recordSD = Face.sampleSD[0];
 
           ratingTrialData = jsPsych.data.get().last(1).filter({trial_type:'image-slider-response_noButton'}).values();
