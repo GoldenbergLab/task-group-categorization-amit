@@ -24,17 +24,17 @@ function checkID (){
           return true; }
           else{ return false;} }
 
-function getSortImage(){
+function getSortImage(){ //the image for minimal group paradigm
   stim = '<img src=img/sort/'+ Object.keys(sortImage)[0] +'.jpg style="margin:30px">'+
          '<img src=img/sort/'+ Object.keys(sortImage)[1]+'.jpg style="margin:30px">';
   return stim
 }
 
-function getPrompt(){
+function getPrompt(){ //the prompt for minimal group paradigm
   return sortPrompt.shift();
 }
 
-function getOptions(){
+function getOptions(){   //the options for minimal group paradigm
   return [Object.values(sortImage)[0], Object.values(sortImage)[1]]};
 
 function optionButton(){
@@ -62,13 +62,13 @@ function getStimList(min1,max1,min2,max2) {  //min1:first index of practice stim
 
   for(var i = min1; i < (max1+1); i++){    //use loop to get a list of stimulus with sequential numbers in file names
       stims.push( 'stimuli/practice' + '/1_0' + ("0" + i).slice(-2) + '.png')};//add practice stims
-  return stims;
+  return stims;  //attention please! in the list, 4 practice stimulus are AT TGE END (for convenience of shuffling and ordering)
 }
 
 
 function getStim (){
-  var stim =  Face.stims.pop();
-  return stim //get first stim
+  Face.stim =  Face.stims.pop();
+  return Face.stim //get last stim of the stim list
 }
 
 
