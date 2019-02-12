@@ -72,9 +72,18 @@
         jsPsych.data.addProperties({participant_id: Face.ID});} //record participant id
   };
 
+
   var participant_id = { //to check if participants have entered ID (number/character, no punctuation allowed)
       timeline: [enter_id],
       loop_function: checkID,
+  };
+
+  var stimulus = {
+      type: 'image-button-response',
+      stimulus: ,
+      choices: ['Yes','No'],
+      prompt: "Are you an American citizen?",
+      data: {Name:'citizenship'}
   };
 
 

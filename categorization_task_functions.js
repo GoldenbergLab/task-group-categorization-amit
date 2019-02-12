@@ -24,6 +24,15 @@ function checkID (){
           return true; }
           else{ return false;} }
 
+function checkCitizen (){
+      var lasttrialdata = jsPsych.data.getLastTrialData().select('responses').values[0];
+      var lasttrialdata2 = JSON.parse(lasttrialdata).Q0;
+      if (lasttrialdata2 = No){      //test if first/last character in response exist
+         alert("Please, enter your participant id");
+          return true; }
+          else{ return false;} }
+
+
 function getSortImage(){ //the image for minimal group paradigm
   stim = '<img src=img/sort/'+ Object.keys(sortImage)[0] +'.jpg style="margin:30px">'+
          '<img src=img/sort/'+ Object.keys(sortImage)[1]+'.jpg style="margin:30px">';
