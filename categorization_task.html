@@ -64,6 +64,20 @@
   /******************************************/
   /* Start Experiment - trial by trial */
   /******************************************/
+
+  var citizenship = {
+      type: 'image-button-response',
+      stimulus: '',
+      choices: ['Yes','No'],
+      prompt: "Are you an American citizen?",
+      data: {Name:'citizenship'}
+  };
+
+  var checkCitizen = { //to check if citizenship is 'Yes', if it's 'No', the experiment will be terminated
+      timeline: [citizenship],
+      loop_function: checkCitizen
+  };
+
   var enter_id = {
       type: 'survey-text',
       questions: [{prompt: 'Please enter your participant id'}],
@@ -72,25 +86,10 @@
         jsPsych.data.addProperties({participant_id: Face.ID});} //record participant id
   };
 
-
   var participant_id = { //to check if participants have entered ID (number/character, no punctuation allowed)
       timeline: [enter_id],
       loop_function: checkID,
   };
-
-  var citizenship = {
-      type: 'image-button-response',
-      stimulus: ,
-      choices: ['Yes','No'],
-      prompt: "Are you an American citizen?",
-      data: {Name:'citizenship'}
-  };
-
-  //var checkCitizen = { //to check if participants have entered ID (number/character, no punctuation allowed)
-     // timeline: [citizenship],
-      //loop_function: checkCitizen,
-  //};
-
 
   var sort = {  //minimal group paradigm
       type: 'html-button-response',
@@ -186,6 +185,7 @@
   /* create experiment definition array */
 
   var collective_emotion_estimation = []; //display instructions
+  collective_emotion_estimation.push(checkCitizen);
   collective_emotion_estimation.push(participant_id);
   collective_emotion_estimation.push(instructions);
 

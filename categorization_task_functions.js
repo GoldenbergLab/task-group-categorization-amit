@@ -16,21 +16,23 @@ function getRandomElement (list){
 }
 
 function checkID (){
-      var lasttrialdata = jsPsych.data.getLastTrialData().select('responses').values[0];
-      var lasttrialdata2 = JSON.parse(lasttrialdata).Q0;
-      var patt = new RegExp("^[a-zA-Z_0-9]{1,}$"); //the first and last character
-      if (!patt.test(lasttrialdata2)){      //test if first/last character in response exist
-         alert("Please, enter your participant id");
-          return true; }
-          else{ return false;} }
+  var lasttrialdata = jsPsych.data.getLastTrialData().select('responses').values[0];
+  var lasttrialdata2 = JSON.parse(lasttrialdata).Q0;
+  var patt = new RegExp("^[a-zA-Z_0-9]{1,}$"); //the first and last character
+    if (!patt.test(lasttrialdata2)){      //test if first/last character in response exist
+      alert("Please, enter your participant id");
+      return true; }
+    else{ return false;} }
 
 function checkCitizen (){
-      var lasttrialdata = jsPsych.data.getLastTrialData().select('responses').values[0];
-      var lasttrialdata2 = JSON.parse(lasttrialdata).Q0;
-      if (lasttrialdata2 = No){      //test if first/last character in response exist
-         alert("Please, enter your participant id");
-          return true; }
-          else{ return false;} }
+    var data = jsPsych.data.getLastTrialData().select('button_pressed').values[0];
+    if(data == 1){
+      alert('Your experiment will be terminated');
+      window.close();
+            return true;
+    } else { return false;} 
+}
+
 
 
 function getSortImage(){ //the image for minimal group paradigm
