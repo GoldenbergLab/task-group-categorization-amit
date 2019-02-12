@@ -66,7 +66,7 @@
   /******************************************/
   var enter_id = {
       type: 'survey-text',
-      questions: [{prompt: 'Please enter your participant id'}],
+      questions: [{prompt: 'Please enter your Mechanical Turk id'}],
       on_finish: function(data){
         Face.ID = JSON.parse(data.responses).Q0; //save id as global variable
         jsPsych.data.addProperties({participant_id: Face.ID});} //record participant id
