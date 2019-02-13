@@ -27,13 +27,20 @@ function checkID (){
 function checkCitizen (){
     var data = jsPsych.data.getLastTrialData().select('button_pressed').values[0];
     if(data == 1){
-      alert('Your experiment will be terminated');
+      alert('The experiment is designed for Americian participants. Your experiment will be terminated and the window will be closed.');
       window.close();
             return true;
     } else { return false;} 
 }
 
-
+function checkPhone (){
+    var data = jsPsych.data.getLastTrialData().select('button_pressed').values[0];
+    if(data == 0){
+      alert('The experiment is designed for computer-based environment. Your experiment will be terminated and the window will be closed.');
+      window.close();
+            return true;
+    } else { return false;} 
+}
 
 function getSortImage(){ //the image for minimal group paradigm
   stim = '<img src=img/sort/'+ Object.keys(sortImage)[0] +'.jpg style="margin:30px">'+

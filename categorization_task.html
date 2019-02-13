@@ -73,9 +73,22 @@
       data: {Name:'citizenship'}
   };
 
-  var checkCitizen = { //to check if citizenship is 'Yes', if it's 'No', the experiment will be terminated
+  var checkCitizen = { //to check if participant is American citizen. If it's 'No', the experiment will be terminated
       timeline: [citizenship],
       loop_function: checkCitizen
+  };
+
+  var phone = {
+      type: 'image-button-response',
+      stimulus: '',
+      choices: ['Phone','Computer'],
+      prompt: "Are you using a mobile phone or computer to conduct the experiment?",
+      data: {Name:'phone'}
+  };
+
+  var checkPhone = { //to check if participant is using phone. If it's 'No', the experiment will be terminated
+      timeline: [phone],
+      loop_function: checkPhone
   };
 
   var enter_id = {
@@ -185,7 +198,7 @@
   /* create experiment definition array */
 
   var collective_emotion_estimation = []; //display instructions
-  collective_emotion_estimation.push(checkCitizen);
+  collective_emotion_estimation.push(checkCitizen,checkPhone);
   collective_emotion_estimation.push(participant_id);
   collective_emotion_estimation.push(instructions);
 
