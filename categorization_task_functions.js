@@ -27,19 +27,19 @@ function checkID (){
 function checkCitizen (){
     var data = jsPsych.data.getLastTrialData().select('button_pressed').values[0];
     if(data == 1){
-      alert('The experiment is designed for Americian participants. Your experiment will be terminated and the window will be closed.');
+      alert('As mentioned in the study description, this study is limited to Americian participants. Your session will be terminated and the window will be closed.');
       window.close();
             return true;
-    } else { return false;} 
+    } else { return false;}
 }
 
 function checkPhone (){
     var data = jsPsych.data.getLastTrialData().select('button_pressed').values[0];
     if(data == 0){
-      alert('The experiment is designed for computer-based environment. Your experiment will be terminated and the window will be closed.');
+      alert('As mentioned in the study description, this study can only be done a computer and would not work on a smartphone. Your experiment will be terminated and the window will be closed.');
       window.close();
             return true;
-    } else { return false;} 
+    } else { return false;}
 }
 
 function getSortImage(){ //the image for minimal group paradigm
