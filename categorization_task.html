@@ -236,7 +236,7 @@
       var final_submit = function() {
              jsPsych.turk.submitToTurk({"completion_time": (new Date().getTime())});
       };
-      saveData("2019_categorization_task/pilot_negative_stimuli" + Face.ID+ ".json",
+      saveData("2019_categorization_task_pilot_negative/" + Face.ID+ ".json",
       jsPsych.data.get().json(), final_submit, final_submit);
       //jsPsych.data.get().localSave('csv',Face.ID+'.csv'); //save as csv file with id as file name
        window.location = "https://stanforduniversity.qualtrics.com/jfe/form/SV_cBULlVQd3dVp3q5" //redirect to Qualtrics survey
