@@ -170,17 +170,14 @@
             singleStim: Face.stim,
             rating: (jsPsych.data.get().last(2).values())[0].response,
             ratingTime:(jsPsych.data.get().last(2).values())[0].rt,
-
             sampleSD: Face.recordSD,
             sampleMean: Face.sampleMean,
-
             pos1:(Face.emotionX + Face.pos[0]),   pos2:(Face.emotionX + Face.pos[1]),
             pos3:(Face.emotionX + Face.pos[2]),   pos4:(Face.emotionX + Face.pos[3]),
             pos5:(Face.emotionX + Face.pos[4]),   pos6:(Face.emotionX + Face.pos[5]),
             pos7:(Face.emotionX + Face.pos[6]),   pos8:(Face.emotionX + Face.pos[7]),
             pos9:(Face.emotionX + Face.pos[8]),   pos10:(Face.emotionX + Face.pos[9]),
             pos11:(Face.emotionX + Face.pos[10]), pos12:(Face.emotionX + Face.pos[11]),
-
            meanAgents: Face.emotionX +
            (Face.pos[0]+Face.pos[1]+Face.pos[2]+Face.pos[3]+Face.pos[4]+Face.pos[5]+
             Face.pos[6]+Face.pos[7]+Face.pos[8]+Face.pos[9]+Face.pos[10]+Face.pos[11])/12
@@ -239,7 +236,7 @@
       saveData("2019_categorization_task_pilot_negative/" + Face.ID+ ".json",
       jsPsych.data.get().json(), final_submit, final_submit);
       //jsPsych.data.get().localSave('csv',Face.ID+'.csv'); //save as csv file with id as file name
-       window.location = "https://stanforduniversity.qualtrics.com/jfe/form/SV_cBULlVQd3dVp3q5" //redirect to Qualtrics survey
+       window.location = "https://stanforduniversity.qualtrics.com/jfe/form/SV_bEiRfX9t4QIxuPX" //redirect to Qualtrics survey
     }
   })
 
