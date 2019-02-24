@@ -18,9 +18,28 @@ function getRandomElement (list){
 function checkID (){
   var lasttrialdata = jsPsych.data.getLastTrialData().select('responses').values[0];
   var lasttrialdata2 = JSON.parse(lasttrialdata).Q0;
-  var patt = new RegExp("^[a-zA-Z_0-9]{1,}$"); //the first and last character
+  var patt = new RegExp("^[a-zA-Z_0-9]{1,}$"); //the first and last character (this doesn't allow punctuations)
     if (!patt.test(lasttrialdata2)){      //test if first/last character in response exist
       alert("Please, enter your participant id");
+      return true; }
+    else{ return false;} }
+
+function checkUser (){
+    var lasttrialdata = jsPsych.data.getLastTrialData().select('responses').values[0];
+    var userID = JSON.parse(lasttrialdata).Q0;
+    if(userList.responseText.includes(userID)){
+      alert('It seems that you have participated in the experiment before. Thank you for your participation!');
+      //window.close();
+            return true;
+    } else { return false;}
+}
+
+function checkAnswer (){
+  var lasttrialdata = jsPsych.data.getLastTrialData().select('responses').values[0];
+  var lasttrialdata2 = JSON.parse(lasttrialdata).Q0;
+  var patt = new RegExp("[A-Za-z0-9 _.,!'/$]"); // this allows punctuations
+    if (!patt.test(lasttrialdata2)){      //test if first/last character in response exist
+      alert("Please discribe the image just showed");
       return true; }
     else{ return false;} }
 

@@ -48,6 +48,7 @@
      [10,$.getJSON('https://web.stanford.edu/~amitgold/categorization_task/face_distribution_10sd.json', function(data) {
    })];
 
+  var userList =jQuery.get('https://web.stanford.edu/~amitgold/categorization_task/previousUsersID.txt', function(data) {});
 
   /******************************************/
   /* Set up Instructions */
@@ -102,6 +103,7 @@
   var participant_id = { //to check if participants have entered ID (number/character, no punctuation allowed)
       timeline: [enter_id],
       loop_function: checkID,
+      loop_function: checkUser
   };
 
   var sort = {  //minimal group paradigm
@@ -135,6 +137,15 @@
       data: {Name:'stimuli'}
   };
 
+  var attention = {
+    type: 'survey-text',
+    questions: [{prompt: 'What is the contents of the image just displayed?'}],
+  };
+
+  var checkAttention = { //to check if participant is American citizen. If it's 'No', the experiment will be terminated
+      timeline: [attention],
+      loop_function: checkAnswer
+  };
 
   var response = {
       type: 'image-slider-response_noButton',
@@ -217,12 +228,16 @@
   collective_emotion_estimation.push(practice);
   collective_emotion_estimation.push(instructions); //diaplay last page of instruction
 
-  var task = { //conduct the actual 50 tasks
-      timeline: [fixation,stimulus,response,facesSample,button],
-      repetitions: 50,
-      randomize_order: true
-  }
-  collective_emotion_estimation.push(task);
+  var taskNumber = 20; //must be mutiples of 5. The real trial number will have one extra due to attention check trial
+
+  for (var i = 0; i < taskNumber/5; i++) {
+    var k = 0;
+    while (k < 4){
+    collective_emotion_estimation.push(fixation,stimulus,response,facesSample,button);
+    k ++;}
+    collective_emotion_estimation.push(fixation,stimulus,checkAttention,response,facesSample,button);
+  };
+
   collective_emotion_estimation.push(connectSurvey);
 
   /* start the experiment */
