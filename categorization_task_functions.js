@@ -39,7 +39,7 @@ function checkAnswer (){
   var lasttrialdata2 = JSON.parse(lasttrialdata).Q0;
   var patt = new RegExp("[A-Za-z0-9 _.,!'/$]"); // this allows punctuations
     if (!patt.test(lasttrialdata2)){      //test if first/last character in response exist
-      alert("Please discribe the image just showed");
+      alert("Please describe the image just showed in a few words (this will be uses for validation purposes)");
       return true; }
     else{ return false;} }
 
