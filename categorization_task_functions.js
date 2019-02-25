@@ -29,7 +29,7 @@ function checkUser (){
     var userID = JSON.parse(lasttrialdata).Q0;
     if(userList.responseText.includes(userID)){
       alert('It seems that you have participated in the experiment before. Thank you for your participation!');
-      //window.close();
+      window.close();
             return true;
     } else { return false;}
 }
