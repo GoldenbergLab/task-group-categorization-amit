@@ -219,13 +219,12 @@
   for (var i = 0; i < slideList.length-3; i++) {
       collective_emotion_estimation.push(instructions)}
 
-  var practice = {        //conduct a practice round with two trials
-      timeline: [fixation,stimulus,response,facesSample,button],
-      repetitions: 4,
-      randomize_order: true
-  }
+  collective_emotion_estimation.push(fixation,stimulus,checkAttention,response,facesSample,button);
 
-  collective_emotion_estimation.push(practice);
+  for (var i = 0; i < 2; i++) { // practice task
+    collective_emotion_estimation.push(fixation,stimulus,response,facesSample,button);
+  };
+
   collective_emotion_estimation.push(instructions); //diaplay last page of instruction
 
   var taskNumber = 20; //must be mutiples of 5. The real trial number will have one extra due to attention check trial
