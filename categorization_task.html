@@ -140,6 +140,8 @@
   var attention = {
     type: 'survey-text',
     questions: [{prompt: 'Please describe, in your own words, the content of the image just displayed'}],
+    on_finish: function(data){
+        Face.description = JSON.parse(data.responses).Q0; } //save description
   };
 
   var checkAttention = { //to check if participant is American citizen. If it's 'No', the experiment will be terminated
@@ -184,6 +186,7 @@
             ratingTime:(jsPsych.data.get().last(2).values())[0].rt,
             sampleSD: Face.recordSD,
             sampleMean: Face.sampleMean,
+            description: Face.description,
             pos1:(Face.emotionX + Face.pos[0]),   pos2:(Face.emotionX + Face.pos[1]),
             pos3:(Face.emotionX + Face.pos[2]),   pos4:(Face.emotionX + Face.pos[3]),
             pos5:(Face.emotionX + Face.pos[4]),   pos6:(Face.emotionX + Face.pos[5]),
