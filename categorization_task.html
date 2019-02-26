@@ -5,6 +5,7 @@
     <title>categorization_task</title>
     <script src="jspsych-6.0.5/jspsych.js"></script>
     <script src="jspsych-6.0.5/plugins/jspsych-image-button-response.js"></script>
+    <script src="jspsych-6.0.5/plugins/jspsych-external-html.js"></script>
     <script src="jspsych-6.0.5/plugins/jspsych-html-button-response.js"></script>
     <script src="jspsych-6.0.5/plugins/jspsych-survey-text.js"></script>
     <script src="jspsych-6.0.5/plugins/jspsych-html-keyboard-response.js"></script>
@@ -65,7 +66,12 @@
   /******************************************/
   /* Start Experiment - trial by trial */
   /******************************************/
-
+  var consent = {
+    type:'external-html',
+    url: "external_page.html",
+    cont_btn: "start",
+    check_fn: check_consent
+  };
   var citizenship = {
       type: 'image-button-response',
       stimulus: '',
@@ -210,6 +216,7 @@
   /* create experiment definition array */
 
   var collective_emotion_estimation = []; //display instructions
+  collective_emotion_estimation.push(consent);
   collective_emotion_estimation.push(checkCitizen,checkPhone);
   collective_emotion_estimation.push(participant_id);
   collective_emotion_estimation.push(instructions);
