@@ -171,6 +171,7 @@
       type: 'image-button-response',
       stimulus: '',
       choices: [' My Group ','Not My Group'],
+      prompt:"Please choose the group from which the 12 emotional responses were taken.",
       button_html: getButtons,
       data: function(){
           return {
@@ -243,14 +244,14 @@
   jsPsych.init({
   timeline: collective_emotion_estimation,
       on_finish: function(data){
-      //saveData
-      //var final_submit = function() {
-      //       jsPsych.turk.submitToTurk({"completion_time": (new Date().getTime())});
-      //};
+      saveData
+      var final_submit = function() {
+             jsPsych.turk.submitToTurk({"completion_time": (new Date().getTime())});
+      };
       saveData("2019_categorization_task_pilot_negative/" + Face.ID+ ".json",
       jsPsych.data.get().json(), final_submit, final_submit);
-      //jsPsych.data.get().localSave('csv',Face.ID+'.csv'); //save as csv file with id as file name
-       window.location = "https://stanforduniversity.qualtrics.com/jfe/form/SV_bEiRfX9t4QIxuPX" //redirect to Qualtrics survey
+      jsPsych.data.get().localSave('csv',Face.ID+'.csv'); //save as csv file with id as file name
+      window.location = "https://stanforduniversity.qualtrics.com/jfe/form/SV_bEiRfX9t4QIxuPX" //redirect to Qualtrics survey
     }
   })
 
