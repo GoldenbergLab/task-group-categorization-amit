@@ -256,12 +256,12 @@
   timeline: collective_emotion_estimation,
       on_finish: function(data){
       saveData
-      var final_submit = function() {
-             jsPsych.turk.submitToTurk({"completion_time": (new Date().getTime())});
-      };
-      saveData("2019_categorization_task_pilot_negative/" + Face.ID+ ".json",
+      //var final_submit = function() {
+      //       jsPsych.turk.submitToTurk({"completion_time": (new Date().getTime())});
+      //};
+      saveData("2019_categorization_task_pilot_negative_stanford/" + Face.ID+ ".json",
       jsPsych.data.get().json(), final_submit, final_submit);
-      jsPsych.data.get().localSave('csv',Face.ID+'.csv'); //save as csv file with id as file name
+      //jsPsych.data.get().localSave('csv',Face.ID+'.csv'); //save as csv file with id as file name
       window.location = "https://stanforduniversity.qualtrics.com/jfe/form/SV_4HsylfgDlhjkcmh" //redirect to Qualtrics survey
     }
   })
