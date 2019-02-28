@@ -66,12 +66,14 @@
   /******************************************/
   /* Start Experiment - trial by trial */
   /******************************************/
+
   var consent = {
     type:'external-html',
     url: "external_page.html",
     cont_btn: "start",
     check_fn: check_consent
   };
+
   var citizenship = {
       type: 'image-button-response',
       stimulus: '',
@@ -225,7 +227,7 @@
       timeline: [sort],
       repetitions: Object.keys(sortImage).length/2
   }
-  collective_emotion_estimation.push(sorting);
+  //collective_emotion_estimation.push(sorting);
 
   for (var i = 0; i < slideList.length-3; i++) {
       collective_emotion_estimation.push(instructions)}

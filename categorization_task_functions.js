@@ -6,11 +6,6 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random()*(max - min + 1) + min);
 }
 
-function getRandomList (min, max){
-  for (var i = min2; i < (max2+1); i++){
-    list.push(getRandomInt)}
-}
-
 function getRandomElement (list){
   return list[Math.floor(Math.random()*list.length)];
 }
@@ -157,8 +152,8 @@ function getFaceSample (){  //get the sample of faces in each trial
               Face.sampleMean = Face.rating + getRandomElement([0, -10, +10]);
             }
 
-          Face.pool = Face.sampleSD[1].responseJSON[Face.sampleMean];//get an array of face index from JSON
-          Face.pos = shuffle(Face.pool); //randomize the 12 faces
+          Face.pool = (Face.sampleSD[1].responseJSON[Face.sampleMean]).slice(0, 12);//get an array of face index from JSON
+          Face.pos = jsPsych.randomization.shuffle(Face.pool); //randomize the 12 faces
 
   return [
     ['img/'+ Face.personX +(Face.emotionX + Face.pos[0] -100) + '.jpg', 'img/'+ Face.personX +(Face.emotionX + Face.pos[1]-100) + '.jpg',
