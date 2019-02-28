@@ -146,8 +146,8 @@ function getFaceSample (){  //get the sample of faces in each trial
               Face.sampleMean = Face.rating + getRandomElement([0, -10, +10]);
             }
 
-          Face.pos = Face.sampleSD[1].responseJSON[Face.sampleMean];//get an array of face index from JSON
-
+          Face.pool = Face.sampleSD[1].responseJSON[Face.sampleMean];//get an array of face index from JSON
+          Face.pos = shuffle(Face.pool); //randomize the 12 faces
 
   return [
     ['img/'+ Face.personX +(Face.emotionX + Face.pos[0] -100) + '.jpg', 'img/'+ Face.personX +(Face.emotionX + Face.pos[1]-100) + '.jpg',
