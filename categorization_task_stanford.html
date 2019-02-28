@@ -5,6 +5,7 @@
     <title>categorization_task</title>
     <script src="jspsych-6.0.5/jspsych.js"></script>
     <script src="jspsych-6.0.5/plugins/jspsych-image-button-response.js"></script>
+    <script src="jspsych-6.0.5/plugins/jspsych-external-html.js"></script>
     <script src="jspsych-6.0.5/plugins/jspsych-html-button-response.js"></script>
     <script src="jspsych-6.0.5/plugins/jspsych-survey-text.js"></script>
     <script src="jspsych-6.0.5/plugins/jspsych-html-keyboard-response.js"></script>
@@ -53,6 +54,12 @@
   /******************************************/
   /* Set up Instructions */
   /******************************************/
+  var consent = {
+    type:'external-html',
+    url: "external_page.html",
+    cont_btn: "start",
+    check_fn: check_consent
+  };
 
   var instructions = { //11 slides: 1:sorting, 2-9:before prac, 10:before real, 11:end
       type: "image-button-response",
@@ -140,6 +147,8 @@
   var attention = {
     type: 'survey-text',
     questions: [{prompt: 'Please describe, in your own words, the content of the image just displayed'}],
+    on_finish: function(data){
+        Face.description = JSON.parse(data.responses).Q0; } //save description
   };
 
   var checkAttention = { //to check if participant is American citizen. If it's 'No', the experiment will be terminated
@@ -171,6 +180,7 @@
       type: 'image-button-response',
       stimulus: '',
       choices: [' My Group ','Not My Group'],
+      prompt:"Please choose the group from which the 12 emotional responses were taken.",
       button_html: getButtons,
       data: function(){
           return {
@@ -183,6 +193,7 @@
             ratingTime:(jsPsych.data.get().last(2).values())[0].rt,
             sampleSD: Face.recordSD,
             sampleMean: Face.sampleMean,
+            description: Face.description,
             pos1:(Face.emotionX + Face.pos[0]),   pos2:(Face.emotionX + Face.pos[1]),
             pos3:(Face.emotionX + Face.pos[2]),   pos4:(Face.emotionX + Face.pos[3]),
             pos5:(Face.emotionX + Face.pos[4]),   pos6:(Face.emotionX + Face.pos[5]),
@@ -206,6 +217,7 @@
   /* create experiment definition array */
 
   var collective_emotion_estimation = []; //display instructions
+  collective_emotion_estimation.push(consent);
   collective_emotion_estimation.push(checkCitizen,checkPhone);
   collective_emotion_estimation.push(participant_id);
   collective_emotion_estimation.push(instructions);
@@ -219,23 +231,22 @@
   for (var i = 0; i < slideList.length-3; i++) {
       collective_emotion_estimation.push(instructions)}
 
-  var practice = {        //conduct a practice round with two trials
-      timeline: [fixation,stimulus,response,facesSample,button],
-      repetitions: 4,
-      randomize_order: true
-  }
+  collective_emotion_estimation.push(fixation,stimulus,checkAttention,response,facesSample,button);
 
-  collective_emotion_estimation.push(practice);
+  for (var i = 0; i < 3; i++) { // practice task
+    collective_emotion_estimation.push(fixation,stimulus,response,facesSample,button);
+  };
+
   collective_emotion_estimation.push(instructions); //diaplay last page of instruction
 
   var taskNumber = 50; //must be mutiples of 5. The real trial number will have one extra due to attention check trial
 
   for (var i = 0; i < taskNumber/5; i++) {
+    collective_emotion_estimation.push(fixation,stimulus,checkAttention,response,facesSample,button);
     var k = 0;
     while (k < 4){
     collective_emotion_estimation.push(fixation,stimulus,response,facesSample,button);
     k ++;}
-    collective_emotion_estimation.push(fixation,stimulus,checkAttention,response,facesSample,button);
   };
 
   collective_emotion_estimation.push(connectSurvey);
@@ -244,14 +255,14 @@
   jsPsych.init({
   timeline: collective_emotion_estimation,
       on_finish: function(data){
-      //saveData
+      saveData
       //var final_submit = function() {
       //       jsPsych.turk.submitToTurk({"completion_time": (new Date().getTime())});
       //};
-      saveData("2019_categorization_task_pilot_negative/" + Face.ID+ ".json",
+      saveData("2019_categorization_task_pilot_negative_stanford/" + Face.ID+ ".json",
       jsPsych.data.get().json(), final_submit, final_submit);
       //jsPsych.data.get().localSave('csv',Face.ID+'.csv'); //save as csv file with id as file name
-       window.location = "https://stanforduniversity.qualtrics.com/jfe/form/SV_4HsylfgDlhjkcmh" //redirect to Qualtrics survey
+      window.location = "https://stanforduniversity.qualtrics.com/jfe/form/SV_4HsylfgDlhjkcmh" //redirect to Qualtrics survey
     }
   })
 

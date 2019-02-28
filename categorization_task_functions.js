@@ -61,6 +61,17 @@ function checkPhone (){
     } else { return false;}
 }
 
+var check_consent = function(elem) {
+  if ($('#consent_checkbox').is(':checked')) {
+    return true;
+  }
+  else {
+    alert("If you wish to participate, you must check the box next to the statement 'I agree to participate in this study.'");
+    return false;
+  }
+  return false;
+};
+
 function getSortImage(){ //the image for minimal group paradigm
   stim = '<img src=img/sort/'+ Object.keys(sortImage)[0] +'.jpg style="margin:30px">'+
          '<img src=img/sort/'+ Object.keys(sortImage)[1]+'.jpg style="margin:30px">';
