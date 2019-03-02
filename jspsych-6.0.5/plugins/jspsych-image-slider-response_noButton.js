@@ -98,7 +98,7 @@ jsPsych.plugins['image-slider-response_noButton'] = (function() {
 
   plugin.trial = function(display_element, trial) {
 
-    var html =  '<div id="jspsych-image-slider-response_noButton-wrapper" style="margin: 100px 0px;">';   //Change: add img stimulus - assign elements of array getScale function in task file to images//
+    var html =  '<div id="jspsych-image-slider-response_noButton-wrapper" style="margin: 50px 0px;">';   //Change: add img stimulus - assign elements of array getScale function in task file to images//
         html += '<div id="jspsych-image-slider-response_noButton-stimulus"><img src="'+trial.stimulus[1]+
 
     '"height="80px" width="58px"><img src="'+trial.stimulus[1]+ '"height="80px" width="58px"><img src="'+trial.stimulus[2]+
