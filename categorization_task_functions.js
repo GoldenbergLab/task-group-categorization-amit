@@ -2,6 +2,13 @@
 Various useful functions
 **/
 
+function createStimulusPool(start,end) { //the start and ending index of the images
+  var list = [];
+  for(i = start; i < (end+1); i++){ 
+     list.push( 'stimuli/task' + '/1_0' + ("0" + i).slice(-2) + '.png');}
+  return list;
+}
+
 function createFacePool(start,end) { //the start and ending index of the images
   var list = [];
   for(i = start; i < (end+1); i++){ 
@@ -9,6 +16,14 @@ function createFacePool(start,end) { //the start and ending index of the images
      list.push( 'img/C' + i + '.jpg'); list.push( 'img/D' + i + '.jpg');}
   return list;
 }
+
+function createSlideList(start,end){
+  var list = [];
+  for (i = start; i < (end+1); i++){
+     list.push( 'img/ins/Slide ' + i + '.png');}
+  return list;
+}
+
 
 function getRandomInt(min, max) {
   return Math.floor(Math.random()*(max - min + 1) + min);
