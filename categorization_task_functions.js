@@ -2,6 +2,14 @@
 Various useful functions
 **/
 
+function createFacePool(start,end) { //the start and ending index of the images
+  var list = [];
+  for(var i = start; i < (end+1); i++){ 
+     list.push( 'img/A' + i + '.jpg'); list.push( 'img/B' + i + '.jpg'); 
+     list.push( 'img/C' + i + '.jpg'); list.push( 'img/D' + i + '.jpg');}
+  return list;
+}
+
 function getRandomInt(min, max) {
   return Math.floor(Math.random()*(max - min + 1) + min);
 }
