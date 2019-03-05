@@ -2,14 +2,14 @@
 Various useful functions
 **/
 
-function createStimulusPool(start,end) { //the start and ending index of the images
+function loadStimulus(type,start,end) { //the start and ending index of the images
   var list = [];
   for(i = start; i < (end+1); i++){ 
-     list.push( 'stimuli/task' + '/1_0' + ("0" + i).slice(-2) + '.png');}
+     list.push( 'stimuli/' + type + '/1_0' + ('0' + i).slice(-2) + '.png');}
   return list;
 }
 
-function createFacePool(start,end) { //the start and ending index of the images
+function loadFacePool(start,end) { //the start and ending index of the images
   var list = [];
   for(i = start; i < (end+1); i++){ 
      list.push( 'img/A' + i + '.jpg'); list.push( 'img/B' + i + '.jpg'); 

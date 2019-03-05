@@ -25,8 +25,9 @@
   var Face = {}; //create Face dictionary to (1)record fixation time, (2)make face sample and scale have the same person and valence in every trial
   Face.pos = [ ];  //(3)record data of 12 faces' data in face array
   Face.stims = getStimList(1,4,1,50);  //return a randomized list of stim including practice and task stimulus //can change number
-  var facesPool = createFacePool(51,150); //face image files have index from 51 to 150
-  var stimulusPool = createStimulusPool(1,50);
+  var facesPool = loadFacePool(51,150); //face image files have index from 51 to 150
+  var practiceStimulusPool = loadStimulus('practice',1,4);
+  var taskStimulusPool = loadStimulus('task',1,50);
   var slideList = createSlideList (1,11);//list of instructions slides, which have index from 1 to 11
 
   var sortImage = {A1:'Rock',A2:'Pop',B1:'Big City',B2:'Small Town',C1:'Ice Cream',C2:'Hamburger',
@@ -253,7 +254,7 @@
 
   /* start the experiment */
   jsPsych.init({
-  preload_images: facesPool,stimulusPool,
+  preload_images: facesPool,taskStimulusPool,practiceStimulusPool,
   timeline: collective_emotion_estimation,
       on_finish: function(data){
       saveData
