@@ -18,21 +18,17 @@
   <body bgcolor="#AAAAAA"></body>
   <script>
 
-
   /* ************************************ */
   /* Define experimental variables / upload data */
   /* ************************************ */
-  var taskNumber = 20; //must be mutiples of 5. The real trial number will have one extra due to attention check trial
-  var attentionCheckInterval = 5; // there will be an attention check every this number of trials
 
   var Face = {}; //create Face dictionary to (1)record fixation time, (2)make face sample and scale have the same person and valence in every trial
-  Face.pos = [ ];  // (3)record data of 12 faces' data in face array
+  Face.pos = [ ];  //(3)record data of 12 faces' data in face array
   Face.stims = getStimList(1,4,1,50);  //return a randomized list of stim including practice and task stimulus //can change number
-  var facesPool = createFacePool(51,150);
-
-  var slideList = ['img/ins/Slide 1.png','img/ins/Slide 2.png', 'img/ins/Slide 3.png','img/ins/Slide 4.png',
-                   'img/ins/Slide 5.png','img/ins/Slide 6.png', 'img/ins/Slide 7.png','img/ins/Slide 8.png',
-                   'img/ins/Slide 9.png','img/ins/Slide 10.png','img/ins/Slide 11.png'];//list of instructions slides
+  var facesPool = loadFacePool(51,150); //face image files have index from 51 to 150
+  var practiceStimulusPool = loadStimulus('practice',1,4);
+  var taskStimulusPool = loadStimulus('task',1,50);
+  var slideList = createSlideList (1,11);//list of instructions slides, which have index from 1 to 11
 
   var sortImage = {A1:'Rock',A2:'Pop',B1:'Big City',B2:'Small Town',C1:'Ice Cream',C2:'Hamburger',
                    D1:'At the Beach',D2:'At the Pool',E1:'Cat',E2:'Dog'};
@@ -71,10 +67,10 @@
   /******************************************/
 
   var consent = {
-    type:'external-html',
-    url: "external_page.html",
-    cont_btn: "start",
-    check_fn: check_consent
+      type:'external-html',
+      url: "external_page.html",
+      cont_btn: "start",
+      check_fn: check_consent
   };
 
   var citizenship = {
@@ -149,9 +145,9 @@
   };
 
   var attention = {
-    type: 'survey-text',
-    questions: [{prompt: 'Please describe, in your own words, the content of the image just displayed'}],
-    on_finish: function(data){
+      type: 'survey-text',
+      questions: [{prompt: 'Please describe, in your own words, the content of the image just displayed'}],
+      on_finish: function(data){
         Face.description = JSON.parse(data.responses).Q0; } //save description
   };
 
@@ -243,6 +239,8 @@
 
   collective_emotion_estimation.push(instructions); //diaplay last page of instruction
 
+  var taskNumber = 20; //must be mutiples of 5. The real trial number will have one extra due to attention check trial
+  var attentionCheckInterval = 5; // there will be an attention check every this number of trials
 
   for (var i = 0; i < taskNumber/attentionCheckInterval; i++) {
     collective_emotion_estimation.push(fixation,stimulus,checkAttention,response,facesSample,button);
@@ -256,6 +254,7 @@
 
   /* start the experiment */
   jsPsych.init({
+  preload_images: facesPool,taskStimulusPool,practiceStimulusPool,
   timeline: collective_emotion_estimation,
       on_finish: function(data){
       saveData
