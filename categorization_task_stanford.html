@@ -22,6 +22,8 @@
   /* ************************************ */
   /* Define experimental variables / upload data */
   /* ************************************ */
+  var taskNumber = 20; //must be mutiples of 5. The real trial number will have one extra due to attention check trial
+  var attentionCheckInterval = 5; // there will be an attention check every this number of trials
 
   var Face = {}; //create Face dictionary to (1)record fixation time, (2)make face sample and scale have the same person and valence in every trial
   Face.pos = [ ];  // (3)record data of 12 faces' data in face array
@@ -241,8 +243,6 @@
 
   collective_emotion_estimation.push(instructions); //diaplay last page of instruction
 
-  var taskNumber = 20; //must be mutiples of 5. The real trial number will have one extra due to attention check trial
-  var attentionCheckInterval = 5; // there will be an attention check every this number of trials
 
   for (var i = 0; i < taskNumber/attentionCheckInterval; i++) {
     collective_emotion_estimation.push(fixation,stimulus,checkAttention,response,facesSample,button);
