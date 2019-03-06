@@ -21,11 +21,12 @@
   /* ************************************ */
   /* Define experimental variables / upload data */
   /* ************************************ */
-
   var Face = {}; //create Face dictionary to (1)record fixation time, (2)make face sample and scale have the same person and valence in every trial
   Face.pos = [ ];  //(3)record data of 12 faces' data in face array
   Face.stims = getStimList(1,4,1,50);  //return a randomized list of stim including practice and task stimulus //can change number
-  var facesPool = loadFacePool(51,150); //face image files have index from 51 to 150
+  var facesPool = loadFacePool(51,150);
+
+  //face image files have index from 51 to 150
   var practiceStimulusPool = loadStimulus('practice',1,4);
   var taskStimulusPool = loadStimulus('task',1,50);
   var slideList = createSlideList (1,11);//list of instructions slides, which have index from 1 to 11
@@ -217,7 +218,7 @@
   /* create experiment definition array */
 
   var collective_emotion_estimation = []; //display instructions
-  //collective_emotion_estimation.push(consent);
+  collective_emotion_estimation.push(consent);
   collective_emotion_estimation.push(checkCitizen,checkPhone);
   collective_emotion_estimation.push(participant_id);
   collective_emotion_estimation.push(instructions);
@@ -239,7 +240,7 @@
 
   collective_emotion_estimation.push(instructions); //diaplay last page of instruction
 
-  var taskNumber = 20; //must be mutiples of 5. The real trial number will have one extra due to attention check trial
+  var taskNumber = 50; //must be mutiples of 5. The real trial number will have one extra due to attention check trial
   var attentionCheckInterval = 5; // there will be an attention check every this number of trials
 
   for (var i = 0; i < taskNumber/attentionCheckInterval; i++) {
