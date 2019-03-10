@@ -10,11 +10,11 @@ function loadStimulus(type,start,end) { //the start and ending index of the imag
 }
 
 function loadFacePool(start,end) { //the start and ending index of the images
-  var list = [];
+  var pool = [];
   for(i = start; i < (end+1); i++){ 
-     list.push( 'img/A' + i + '.jpg'); list.push( 'img/B' + i + '.jpg'); 
-     list.push( 'img/C' + i + '.jpg'); list.push( 'img/D' + i + '.jpg');}
-  return list;
+     pool.push( 'img/A' + i + '.jpg'); pool.push( 'img/B' + i + '.jpg'); 
+     pool.push( 'img/C' + i + '.jpg'); pool.push( 'img/D' + i + '.jpg');}
+  return pool;
 }
 
 function createSlideList(start,end){
@@ -23,7 +23,6 @@ function createSlideList(start,end){
      list.push( 'img/ins/Slide ' + i + '.png');}
   return list;
 }
-
 
 function getRandomInt(min, max) {
   return Math.floor(Math.random()*(max - min + 1) + min);
@@ -34,60 +33,60 @@ function getRandomElement (list){
 }
 
 function checkID (){
-  var lasttrialdata = jsPsych.data.getLastTrialData().select('responses').values[0];
-  var textInput = JSON.parse(lasttrialdata).Q0;
+  var inputText = jsPsych.data.getLastTrialData().select('responses').values[0];
+  var ID = JSON.parse(inputText).Q0;
   var patt = new RegExp("^[a-zA-Z_0-9]{1,}$"); //the first and last character (this doesn't allow punctuations)
-    if (!patt.test(textInput)){      //test if first/last character in response exist
+    if (!patt.test(ID)){      //test if first/last character in response exist
       alert("Please, enter your participant id");
       return true; }
     else{ return false;} }
 
-function checkUser (){
-    var lasttrialdata = jsPsych.data.getLastTrialData().select('responses').values[0];
-    var userID = JSON.parse(lasttrialdata).Q0;
-    if(userList.responseText.includes(userID)){
-      alert('It seems that you have participated in the experiment before. Thank you for your participation!');
-      window.close();
-            return true;
-    } else { return false;}
+function checkUser (){//check if user has been in list of
+  var inputText = jsPsych.data.getLastTrialData().select('responses').values[0];
+  var userID = JSON.parse(inputText).Q0;
+  if(userList.responseText.includes(userID)){
+    alert('It seems that you have participated in the experiment before. Thank you for your participation!');
+    window.close();
+    return true;
+  } else { return false;}
 }
 
 function checkAnswer (){
-  var lasttrialdata = jsPsych.data.getLastTrialData().select('responses').values[0];
-  var textInput = JSON.parse(lasttrialdata).Q0;
+  var inputText = jsPsych.data.getLastTrialData().select('responses').values[0];
+  var text = JSON.parse(inputText).Q0;
   var patt = new RegExp("[A-Za-z0-9 _.,!'/$]"); // this allows punctuations
-    if (!patt.test(textInput)){      //test if first/last character in response exist
-      alert("Please describe the image just showed in a few words (this will be uses for validation purposes)");
-      return true; }
-    else{ return false;} }
+  if (!patt.test(text)){      //test if first/last character in response exist
+    alert("Please describe the image just showed in a few words (this will be uses for validation purposes)");
+    
+    return true; }
+  else{ return false;} 
+}
 
 function checkCitizen (){
-    var choice = jsPsych.data.getLastTrialData().select('button_pressed').values[0];
-    if(choice == 1){
-      alert('As mentioned in the study description, this study is limited to Americian participants. Your session will be terminated and the window will be closed.');
-      window.close();
-            return true;
-    } else { return false;}
+  var choice = jsPsych.data.getLastTrialData().select('button_pressed').values[0];
+  if(choice == 1){
+    alert('As mentioned in the study description, this study is limited to Americian participants. Your session will be terminated and the window will be closed.');
+    window.close();
+    return true;
+  } else { return false;}
 }
 
 function checkPhone (){
-    var choice = jsPsych.data.getLastTrialData().select('button_pressed').values[0];
-    if(choice == 0){ 
-      alert('As mentioned in the study description, this study can only be done a computer and would not work on a smartphone. Your experiment will be terminated and the window will be closed.');
-      window.close();
-            return true;
-    } else { return false;}
+  var choice = jsPsych.data.getLastTrialData().select('button_pressed').values[0];
+  if(choice == 0){ 
+    alert('As mentioned in the study description, this study can only be done a computer and would not work on a smartphone. Your experiment will be terminated and the window will be closed.');
+    window.close();
+    return true;
+  } else { return false;}
 }
 
-var check_consent = function(elem) {
+function check_consent (){
   if ($('#consent_checkbox').is(':checked')) {
     return true;
-  }
-  else {
+  } else {
     alert("If you wish to participate, you must check the box next to the statement 'I agree to participate in this study.'");
     return false;
-  }
-  return false;
+  } return false;
 }
 
 function getNextSlide () {  //use to shift instruction slides
@@ -113,11 +112,11 @@ function optionButton(){
     '<button class="jspsych-btn" style="font-size: 24px; padding: 10px ; position: fixed; left:29%;top:80%; width: 170px;box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.9);border-radius: 80%">%choice%</button>',
     '<button class="jspsych-btn" style="font-size: 24px; padding: 10px ; position: fixed; left:62%;top:80%; width: 170px;box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.9);border-radius: 80%">%choice%</button>'
     ];
-    myButtons = [];
-    myButtons.push(trialButtons);
-    //alert (myButtons)
-    return myButtons[myButtons.length -1];
-  }
+  myButtons = [];
+  myButtons.push(trialButtons);
+  //alert (myButtons)
+  return myButtons[myButtons.length -1];
+}
 
 function getFixationTime (){  //get randomized time of fixation by randomly choosing from 0.5, 1 and 1.5s
   Face.fixationTime = getRandomElement([500, 1000, 1500]);
@@ -142,46 +141,55 @@ function getStim (){
   return Face.stim //get last stim of the stim list
 }
 
-
+function emotionValence(emotion){
+  if (emotion == 'positive'){
+    Face.emotionX = 50;
+    Face.path = 'stimuliPositive/';
+  } else if (emotion == 'negative'){
+    Face.emotionX = 100;
+    Face.path = 'img/';
+  } 
+  return Face.emotionX
+}
 function getScale (){ //generate the rating scale depending on the person and valence randomly chosen in faceArray
 
   //choose positive or negative valence
-  Face.emotionX = getRandomElement([100]); //randomly choose from negative(50) and postive(100) emotion
+
+
   //choose the identity of the face
   Face.personX = getRandomElement(['A','B','C','D']);//randomally choose from ['A','B','C','D'] -- select person
 
 
   return ['img/'+
-      Face.personX+(Face.emotionX + 3*0) + '.jpg', 'img/'+Face.personX+(Face.emotionX + 3*1) + '.jpg', 'img/'+
-      Face.personX+(Face.emotionX + 3*2) + '.jpg', 'img/'+Face.personX+(Face.emotionX + 3*3) + '.jpg', 'img/'+
-      Face.personX+(Face.emotionX + 3*4) + '.jpg', 'img/'+Face.personX+(Face.emotionX + 3*5) + '.jpg', 'img/'+
-      Face.personX+(Face.emotionX + 3*6) + '.jpg', 'img/'+Face.personX+(Face.emotionX + 3*7) + '.jpg', 'img/'+
-      Face.personX+(Face.emotionX + 3*8) + '.jpg', 'img/'+Face.personX+(Face.emotionX + 3*9) + '.jpg', 'img/'+
-      Face.personX+(Face.emotionX + 3*10)+ '.jpg', 'img/'+Face.personX+(Face.emotionX + 3*11)+ '.jpg', 'img/'+
-      Face.personX+(Face.emotionX + 3*12)+ '.jpg', 'img/'+Face.personX+(Face.emotionX + 3*13)+ '.jpg', 'img/'+
-      Face.personX+(Face.emotionX + 3*14)+ '.jpg', 'img/'+Face.personX+(Face.emotionX + 3*15)+ '.jpg', 'img/'+
-      Face.personX+(Face.emotionX + 3*16)+ '.jpg', 'img/'+Face.personX+(Face.emotionX + 1*50)+ '.jpg']
+    Face.personX+(Face.emotionX + 3*0) + '.jpg', 'img/'+Face.personX+(Face.emotionX + 3*1) + '.jpg', 'img/'+
+    Face.personX+(Face.emotionX + 3*2) + '.jpg', 'img/'+Face.personX+(Face.emotionX + 3*3) + '.jpg', 'img/'+
+    Face.personX+(Face.emotionX + 3*4) + '.jpg', 'img/'+Face.personX+(Face.emotionX + 3*5) + '.jpg', 'img/'+
+    Face.personX+(Face.emotionX + 3*6) + '.jpg', 'img/'+Face.personX+(Face.emotionX + 3*7) + '.jpg', 'img/'+
+    Face.personX+(Face.emotionX + 3*8) + '.jpg', 'img/'+Face.personX+(Face.emotionX + 3*9) + '.jpg', 'img/'+
+    Face.personX+(Face.emotionX + 3*10)+ '.jpg', 'img/'+Face.personX+(Face.emotionX + 3*11)+ '.jpg', 'img/'+
+    Face.personX+(Face.emotionX + 3*12)+ '.jpg', 'img/'+Face.personX+(Face.emotionX + 3*13)+ '.jpg', 'img/'+
+    Face.personX+(Face.emotionX + 3*14)+ '.jpg', 'img/'+Face.personX+(Face.emotionX + 3*15)+ '.jpg', 'img/'+
+    Face.personX+(Face.emotionX + 3*16)+ '.jpg', 'img/'+Face.personX+(Face.emotionX + 1*50)+ '.jpg']
 }
 
 
 function getFaceSample (){  //get the sample of faces in each trial
 
-          Face.sampleSD = getRandomElement([face5sd,face10sd]); //random select from SD=5 and SD=10,
-          Face.recordSD = Face.sampleSD[0];
+  Face.sampleSD = getRandomElement([face5sd,face10sd]); //random select from SD=5 and SD=10,
+  Face.recordSD = Face.sampleSD[0];
 
-          ratingTrialData = jsPsych.data.get().last(1).filter({trial_type:'image-slider-response_noButton'}).values();
-          Face.rating = Number(ratingTrialData[0].response); //get rating
+  ratingTrialData = jsPsych.data.get().last(1).filter({trial_type:'image-slider-response_noButton'}).values();
+  Face.rating = Number(ratingTrialData[0].response); //get rating
 
-          if ( Face.rating < 21) {  //if you rated the picture between 10-20 you can only be assigned to the same or higher condition
-              Face.sampleMean = Face.rating + getRandomElement([0, +10]);
-            } else if (Face.rating > 30) {   //If you rated the picture between 30 to 40 you can only be assigned to lower or same
-              Face.sampleMean = Face.rating + getRandomElement([0, -10]);
-            } else {
-              Face.sampleMean = Face.rating + getRandomElement([0, -10, +10]);
-            }
+  if ( Face.rating < 21) {  //if you rated the picture between 10-20 you can only be assigned to the same or higher condition
+    Face.sampleMean = Face.rating + getRandomElement([0, +10]);
+    } else if (Face.rating > 30) {   //If you rated the picture between 30 to 40 you can only be assigned to lower or same
+    Face.sampleMean = Face.rating + getRandomElement([0, -10]);
+    } else {
+    Face.sampleMean = Face.rating + getRandomElement([0, -10, +10]);}
 
-          Face.pool = (Face.sampleSD[1].responseJSON[Face.sampleMean]).slice(0, 12);//get an array of face index from JSON
-          Face.pos = jsPsych.randomization.shuffle(Face.pool); //randomize the 12 faces
+    Face.pool = (Face.sampleSD[1].responseJSON[Face.sampleMean]).slice(0, 12);//get an array of face index from JSON
+    Face.pos = jsPsych.randomization.shuffle(Face.pool); //randomize the 12 faces
 
   return [
     ['img/'+ Face.personX +(Face.emotionX + Face.pos[0] -100) + '.jpg', 'img/'+ Face.personX +(Face.emotionX + Face.pos[1]-100) + '.jpg',
@@ -195,25 +203,24 @@ function getFaceSample (){  //get the sample of faces in each trial
 
 
 function getButtons() {
-    var trialButtons = [
-    '<button class="jspsych-btn" style="color:white; font-size: 24px; padding: 26px ;background-color:black; position: fixed; left:25%;top:36%; width: 210px;box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.9);border-radius: 50%">%choice%</button>',
-    '<button class="jspsych-btn" style="color:white; font-size: 24px; padding: 26px ;background-color:red;position: fixed; left:62%;top:36%;width: 210px;box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.9);border-radius: 50%">%choice%</button>'
-    ];
-    myButtons = [];
-    myButtons.push(trialButtons);
-    //alert (myButtons)
-    return myButtons[myButtons.length -1];
-  }
+  var trialButtons = [
+  '<button class="jspsych-btn" style="color:white; font-size: 24px; padding: 26px ;background-color:black; position: fixed; left:25%;top:36%; width: 210px;box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.9);border-radius: 50%">%choice%</button>',
+  '<button class="jspsych-btn" style="color:white; font-size: 24px; padding: 26px ;background-color:red;position: fixed; left:62%;top:36%;width: 210px;box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.9);border-radius: 50%">%choice%</button>'];
+  myButtons = [];
+  myButtons.push(trialButtons);
+  //alert (myButtons)
+  return myButtons[myButtons.length -1];
+}
 
 
 //data/server communication
 function saveData(filename, filedata, callback, error_callback){
-   $.ajax({
-      type: 'post',
-      cache: false,
-      url: 'https://web.stanford.edu/~amitgold/cgi-bin/save_data.php',
-      data: {filename: filename, filedata: filedata},
-      success: callback,
-      error: error_callback
-   });
+  $.ajax({
+    type: 'post',
+    cache: false,
+    url: 'https://web.stanford.edu/~amitgold/cgi-bin/save_data.php',
+    data: {filename: filename, filedata: filedata},
+    success: callback,
+    error: error_callback
+  });
 }
