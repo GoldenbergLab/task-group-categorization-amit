@@ -18,15 +18,15 @@
   <body bgcolor="#AAAAAA"></body>
   <script>
 
+
   /* ************************************ */
   /* Define experimental variables / upload data */
   /* ************************************ */
+
   var Face = {}; //create Face dictionary to (1)record fixation time, (2)make face sample and scale have the same person and valence in every trial
   Face.pos = [ ];  //(3)record data of 12 faces' data in face array
   Face.stims = getStimList(1,4,1,50);  //return a randomized list of stim including practice and task stimulus //can change number
-  var facesPool = loadFacePool(51,150);
-
-  //face image files have index from 51 to 150
+  var facesPool = loadFacePool(51,150); //face image files have index from 51 to 150
   var practiceStimulusPool = loadStimulus('practice',1,4);
   var taskStimulusPool = loadStimulus('task',1,50);
   var slideList = createSlideList (1,11);//list of instructions slides, which have index from 1 to 11
@@ -149,7 +149,8 @@
       type: 'survey-text',
       questions: [{prompt: 'Please describe, in your own words, the content of the image just displayed'}],
       on_finish: function(data){
-        Face.description = JSON.parse(data.responses).Q0; } //save description
+        Face.description = JSON.parse(data.responses).Q0; }, //save description
+      on_finish: saveData
   };
 
   var checkAttention = { //to check if participant is American citizen. If it's 'No', the experiment will be terminated
@@ -209,9 +210,10 @@
 
 
   var connectSurvey = {
-      type: 'image-button-response',
-      stimulus: getNextSlide,
-      choices: ['Begin Survey']
+    on_start: saveData,
+    type: 'image-button-response',
+    stimulus: getNextSlide,
+    choices: ['Begin Survey']
   };
 
 
@@ -255,19 +257,19 @@
 
   /* start the experiment */
   jsPsych.init({
-  preload_images: facesPool,taskStimulusPool,practiceStimulusPool,
-  timeline: collective_emotion_estimation,
-      on_finish: function(data){
-      saveData
-      var final_submit = function() {
-             jsPsych.turk.submitToTurk({"completion_time": (new Date().getTime())});
-      };
-      saveData("2019_categorization_task_pilot_negative/" + Face.ID+ ".json",
-      jsPsych.data.get().json(), final_submit, final_submit);
-      //jsPsych.data.get().localSave('csv',Face.ID+'.csv'); //save as csv file with id as file name
-      window.location = "https://stanforduniversity.qualtrics.com/jfe/form/SV_bEiRfX9t4QIxuPX" //redirect to Qualtrics survey
+    preload_images: facesPool,taskStimulusPool,practiceStimulusPool,
+    timeline: collective_emotion_estimation,
+    on_finish: function(data){
+    //saveData
+    //var final_submit = function() {
+    //       jsPsych.turk.submitToTurk({"completion_time": (new Date().getTime())});
+    //};
+    //saveData("2019_categorization_task_pilot_negative_stanford_preload_pictures/" + Face.ID+ ".json",
+    //jsPsych.data.get().json(), final_submit, final_submit);
+    //jsPsych.data.get().localSave('csv',Face.ID+'.csv'); //save as csv file with id as file name
+    window.location = "https://stanforduniversity.qualtrics.com/jfe/form/SV_bEiRfX9t4QIxuPX" //redirect to Qualtrics survey
     }
   })
 
-  </script>
-  </html>
+</script>
+</html>
