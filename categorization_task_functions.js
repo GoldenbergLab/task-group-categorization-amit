@@ -125,6 +125,17 @@ function getFixationTime (){  //get randomized time of fixation by randomly choo
 }
 
 
+function emotionValence(emotion){
+  if (emotion == 'positive'){
+    Face.emotionX = 50;
+    Face.path = 'stimuliPositive/';
+  } else if (emotion == 'negative'){
+    Face.emotionX = 100;
+    Face.path = 'img/';
+  } 
+  return Face.emotionX
+}
+
 function getStimList(min1,max1,min2,max2) {  //min1:first index of practice stim, min1:first index of task stim
   var stims = [];
   for(i = min2; i < (max2+1); i++){    //use loop to get a list of stimulus with sequential numbers in file names
