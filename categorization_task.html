@@ -51,6 +51,23 @@
 
   var userList =jQuery.get('https://web.stanford.edu/~amitgold/categorization_task/previousUsersID.txt', function(data) {});
 
+  /* ****************************************************/
+  /* Define local functions (other than functions file) */
+  /* ****************************************************/
+
+  function saveData(){ //save data function
+    $.ajax({
+      type: 'post',
+      cache: false,
+      url: 'https://web.stanford.edu/~amitgold/cgi-bin/save_data.php',
+      data: {filename: "2019_categorization_task_pilot_negative_stanford_preload_pictures/" + Face.ID+ ".json",
+             filedata: jsPsych.data.get().json()}
+      //error: error_callback
+    });
+  }
+
+
+
   /******************************************/
   /* Set up Instructions */
   /******************************************/
@@ -135,7 +152,6 @@
       data: {Name:'fixation'}
   };
 
-
   var stimulus = {
       type: 'image-button-response',
       stimulus: getStim,
@@ -216,10 +232,9 @@
     choices: ['Begin Survey']
   };
 
-
-  /* create experiment definition array */
-
-  var collective_emotion_estimation = []; //display instructions
+  /******************************************/
+  /*           timeline                     */
+  /******************************************/  var collective_emotion_estimation = []; //display instructions
   collective_emotion_estimation.push(consent);
   collective_emotion_estimation.push(checkCitizen,checkPhone);
   collective_emotion_estimation.push(participant_id);
@@ -255,8 +270,10 @@
 
   collective_emotion_estimation.push(connectSurvey);
 
-  /* start the experiment */
-  jsPsych.init({
+  /******************************************/
+  /*           run the study                */
+  /******************************************/
+    jsPsych.init({
     preload_images: facesPool,taskStimulusPool,practiceStimulusPool,
     timeline: collective_emotion_estimation,
     on_finish: function(data){

@@ -2,19 +2,6 @@
 Various useful functions
 **/
 
-function saveData(){
-  $.ajax({
-    type: 'post',
-    cache: false,
-    url: 'https://web.stanford.edu/~amitgold/cgi-bin/save_data.php',
-    data: {filename: "2019_categorization_task_pilot_negative_stanford_preload_pictures/" + Face.ID+ ".json",
-           filedata: jsPsych.data.get().json()}
-    //error: error_callback
-  });
-}
-
-
-
 function loadStimulus(type,start,end) { //the start and ending index of the images
   var list = [];
   for(i = start; i < (end+1); i++){
