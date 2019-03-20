@@ -193,6 +193,16 @@ function getFaceSample (){  //get the sample of faces in each trial
     ];
 }
 
+function emotionValence(emotion){
+  if (emotion == 'positive'){
+    Face.emotionX = 50;
+    Face.path = 'stimuliPositive/';
+  } else if (emotion == 'negative'){
+    Face.emotionX = 100;
+    Face.path = 'img/';
+  }
+  return Face.emotionX
+}
 
 function getButtons() {
     var trialButtons = [
