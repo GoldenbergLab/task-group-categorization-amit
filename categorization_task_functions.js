@@ -49,7 +49,7 @@ function checkUser (){//check if user has been in list of
     alert('It seems that you have participated in the experiment before. Thank you for your participation!');
     window.close();
     return true;
-  } else { return false;
+  } else { return false;}
 }
 
 function checkAnswer (){
@@ -68,7 +68,7 @@ function checkCitizen (){
     alert('As mentioned in the study description, this study is limited to Americian participants. Your session will be terminated and the window will be closed.');
     window.close();
     return true;
-  } else { return false;
+  } else { return false;}
 }
 
 function checkPhone (){
@@ -77,7 +77,7 @@ function checkPhone (){
     alert('As mentioned in the study description, this study can only be done a computer and would not work on a smartphone. Your experiment will be terminated and the window will be closed.');
     window.close();
     return true;
-  } else { return false;
+  } else { return false;}
 }
 
 var check_consent = function(elem) {
@@ -124,17 +124,6 @@ function getFixationTime (){  //get randomized time of fixation by randomly choo
 }
 
 
-function emotionValence(emotion){
-  if (emotion == 'positive'){
-    Face.emotionX = 50;
-    Face.path = 'stimuliPositive/';
-  } else if (emotion == 'negative'){
-    Face.emotionX = 100;
-    Face.path = 'img/';
-  } 
-  return Face.emotionX
-}
-
 function getStimList(min1,max1,min2,max2) {  //min1:first index of practice stim, min1:first index of task stim
   var stims = [];
   for(i = min2; i < (max2+1); i++){    //use loop to get a list of stimulus with sequential numbers in file names
@@ -152,25 +141,32 @@ function getStim (){
   return Face.stim //get last stim of the stim list
 }
 
+function emotionValence(emotion){ //choose positive or negative valence
+  if (emotion == 'positive'){
+    Face.emotionX = 50;
+    Face.path = 'stimuliPositive/';
+  } else if (emotion == 'negative'){
+    Face.emotionX = 100;
+    Face.path = 'img/';
+  } 
+  return Face.emotionX
+}
 
 function getScale (){ //generate the rating scale depending on the person and valence randomly chosen in faceArray
 
-  //choose positive or negative valence
-  Face.emotionX = getRandomElement([100]); //randomly choose from negative(50) and postive(100) emotion
   //choose the identity of the face
   Face.personX = getRandomElement(['A','B','C','D']);//randomally choose from ['A','B','C','D'] -- select person
 
-
   return ['img/'+
-      Face.personX+(Face.emotionX + 3*0) + '.jpg', 'img/'+Face.personX+(Face.emotionX + 3*1) + '.jpg', 'img/'+
-      Face.personX+(Face.emotionX + 3*2) + '.jpg', 'img/'+Face.personX+(Face.emotionX + 3*3) + '.jpg', 'img/'+
-      Face.personX+(Face.emotionX + 3*4) + '.jpg', 'img/'+Face.personX+(Face.emotionX + 3*5) + '.jpg', 'img/'+
-      Face.personX+(Face.emotionX + 3*6) + '.jpg', 'img/'+Face.personX+(Face.emotionX + 3*7) + '.jpg', 'img/'+
-      Face.personX+(Face.emotionX + 3*8) + '.jpg', 'img/'+Face.personX+(Face.emotionX + 3*9) + '.jpg', 'img/'+
-      Face.personX+(Face.emotionX + 3*10)+ '.jpg', 'img/'+Face.personX+(Face.emotionX + 3*11)+ '.jpg', 'img/'+
-      Face.personX+(Face.emotionX + 3*12)+ '.jpg', 'img/'+Face.personX+(Face.emotionX + 3*13)+ '.jpg', 'img/'+
-      Face.personX+(Face.emotionX + 3*14)+ '.jpg', 'img/'+Face.personX+(Face.emotionX + 3*15)+ '.jpg', 'img/'+
-      Face.personX+(Face.emotionX + 3*16)+ '.jpg', 'img/'+Face.personX+(Face.emotionX + 1*50)+ '.jpg']
+    Face.personX+(Face.emotionX + 3*0) + '.jpg', 'img/'+Face.personX+(Face.emotionX + 3*1) + '.jpg', 'img/'+
+    Face.personX+(Face.emotionX + 3*2) + '.jpg', 'img/'+Face.personX+(Face.emotionX + 3*3) + '.jpg', 'img/'+
+    Face.personX+(Face.emotionX + 3*4) + '.jpg', 'img/'+Face.personX+(Face.emotionX + 3*5) + '.jpg', 'img/'+
+    Face.personX+(Face.emotionX + 3*6) + '.jpg', 'img/'+Face.personX+(Face.emotionX + 3*7) + '.jpg', 'img/'+
+    Face.personX+(Face.emotionX + 3*8) + '.jpg', 'img/'+Face.personX+(Face.emotionX + 3*9) + '.jpg', 'img/'+
+    Face.personX+(Face.emotionX + 3*10)+ '.jpg', 'img/'+Face.personX+(Face.emotionX + 3*11)+ '.jpg', 'img/'+
+    Face.personX+(Face.emotionX + 3*12)+ '.jpg', 'img/'+Face.personX+(Face.emotionX + 3*13)+ '.jpg', 'img/'+
+    Face.personX+(Face.emotionX + 3*14)+ '.jpg', 'img/'+Face.personX+(Face.emotionX + 3*15)+ '.jpg', 'img/'+
+    Face.personX+(Face.emotionX + 3*16)+ '.jpg', 'img/'+Face.personX+(Face.emotionX + 1*50)+ '.jpg']
 }
 
 
@@ -204,12 +200,11 @@ function getFaceSample (){  //get the sample of faces in each trial
 
 
 function getButtons() {
-    var trialButtons = [
-    '<button class="jspsych-btn" style="color:white; font-size: 24px; padding: 26px ;background-color:black; position: fixed; left:25%;top:36%; width: 210px;box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.9);border-radius: 50%">%choice%</button>',
-    '<button class="jspsych-btn" style="color:white; font-size: 24px; padding: 26px ;background-color:red;position: fixed; left:62%;top:36%;width: 210px;box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.9);border-radius: 50%">%choice%</button>'
-    ];
-    myButtons = [];
-    myButtons.push(trialButtons);
-    //alert (myButtons)
-    return myButtons[myButtons.length -1];
-  }
+  var trialButtons = [
+  '<button class="jspsych-btn" style="color:white; font-size: 24px; padding: 26px ;background-color:black; position: fixed; left:25%;top:36%; width: 210px;box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.9);border-radius: 50%">%choice%</button>',
+  '<button class="jspsych-btn" style="color:white; font-size: 24px; padding: 26px ;background-color:red;position: fixed; left:62%;top:36%;width: 210px;box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.9);border-radius: 50%">%choice%</button>'];
+  myButtons = [];
+  myButtons.push(trialButtons);
+  //alert (myButtons)
+  return myButtons[myButtons.length -1];
+}
