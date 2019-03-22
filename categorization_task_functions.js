@@ -24,7 +24,6 @@ function createSlideList(start,end){
   return list;
 }
 
-
 function getRandomInt(min, max) {
   return Math.floor(Math.random()*(max - min + 1) + min);
 }
@@ -40,54 +39,54 @@ function checkID (){
     if (!patt.test(textInput)){      //test if first/last character in response exist
       alert("Please, enter your participant id");
       return true; }
-    else{ return false;} }
+    else{ return false;} 
+}
 
-function checkUser (){
-    var lasttrialdata = jsPsych.data.getLastTrialData().select('responses').values[0];
-    var userID = JSON.parse(lasttrialdata).Q0;
-    if(userList.responseText.includes(userID)){
-      alert('It seems that you have participated in the experiment before. Thank you for your participation!');
-      window.close();
-            return true;
-    } else { return false;}
+function checkUser (){//check if user has been in list of
+  var inputText = jsPsych.data.getLastTrialData().select('responses').values[0];
+  var userID = JSON.parse(inputText).Q0;
+  if(userList.responseText.includes(userID)){
+    alert('It seems that you have participated in the experiment before. Thank you for your participation!');
+    window.close();
+    return true;
+  } else { return false;
 }
 
 function checkAnswer (){
-  var lasttrialdata = jsPsych.data.getLastTrialData().select('responses').values[0];
-  var textInput = JSON.parse(lasttrialdata).Q0;
+  var inputText = jsPsych.data.getLastTrialData().select('responses').values[0];
+  var text = JSON.parse(inputText).Q0;
   var patt = new RegExp("[A-Za-z0-9 _.,!'/$]"); // this allows punctuations
     if (!patt.test(textInput)){      //test if first/last character in response exist
       alert("Please describe the image just showed in a few words (this will be uses for validation purposes)");
       return true; }
-    else{ return false;} }
+    else{ return false;} 
+}
 
 function checkCitizen (){
-    var choice = jsPsych.data.getLastTrialData().select('button_pressed').values[0];
-    if(choice == 1){
-      alert('As mentioned in the study description, this study is limited to Americian participants. Your session will be terminated and the window will be closed.');
-      window.close();
-            return true;
-    } else { return false;}
+  var choice = jsPsych.data.getLastTrialData().select('button_pressed').values[0];
+  if(choice == 1){
+    alert('As mentioned in the study description, this study is limited to Americian participants. Your session will be terminated and the window will be closed.');
+    window.close();
+    return true;
+  } else { return false;
 }
 
 function checkPhone (){
-    var choice = jsPsych.data.getLastTrialData().select('button_pressed').values[0];
-    if(choice == 0){
-      alert('As mentioned in the study description, this study can only be done a computer and would not work on a smartphone. Your experiment will be terminated and the window will be closed.');
-      window.close();
-            return true;
-    } else { return false;}
+  var choice = jsPsych.data.getLastTrialData().select('button_pressed').values[0];
+  if(choice == 0){ 
+    alert('As mentioned in the study description, this study can only be done a computer and would not work on a smartphone. Your experiment will be terminated and the window will be closed.');
+    window.close();
+    return true;
+  } else { return false;
 }
 
 var check_consent = function(elem) {
   if ($('#consent_checkbox').is(':checked')) {
     return true;
-  }
-  else {
+  }else {
     alert("If you wish to participate, you must check the box next to the statement 'I agree to participate in this study.'");
     return false;
-  }
-  return false;
+  } return false;
 }
 
 function getNextSlide () {  //use to shift instruction slides
@@ -177,22 +176,21 @@ function getScale (){ //generate the rating scale depending on the person and va
 
 function getFaceSample (){  //get the sample of faces in each trial
 
-          Face.sampleSD = getRandomElement([face5sd,face10sd]); //random select from SD=5 and SD=10,
-          Face.recordSD = Face.sampleSD[0];
+  Face.sampleSD = getRandomElement([face5sd,face10sd]); //random select from SD=5 and SD=10,
+  Face.recordSD = Face.sampleSD[0];
+  
+  ratingTrialData = jsPsych.data.get().last(1).filter({trial_type:'image-slider-response_noButton'}).values();
+  Face.rating = Number(ratingTrialData[0].response); //get rating
 
-          ratingTrialData = jsPsych.data.get().last(1).filter({trial_type:'image-slider-response_noButton'}).values();
-          Face.rating = Number(ratingTrialData[0].response); //get rating
-
-          if ( Face.rating < 21) {  //if you rated the picture between 10-20 you can only be assigned to the same or higher condition
-              Face.sampleMean = Face.rating + getRandomElement([0, +10]);
-            } else if (Face.rating > 30) {   //If you rated the picture between 30 to 40 you can only be assigned to lower or same
-              Face.sampleMean = Face.rating + getRandomElement([0, -10]);
-            } else {
-              Face.sampleMean = Face.rating + getRandomElement([0, -10, +10]);
-            }
-
-          Face.pool = (Face.sampleSD[1].responseJSON[Face.sampleMean]).slice(0, 12);//get an array of face index from JSON
-          Face.pos = jsPsych.randomization.shuffle(Face.pool); //randomize the 12 faces
+  if ( Face.rating < 21) {  //if you rated the picture between 10-20 you can only be assigned to the same or higher condition
+    Face.sampleMean = Face.rating + getRandomElement([0, +10]);
+    } else if (Face.rating > 30) {   //If you rated the picture between 30 to 40 you can only be assigned to lower or same
+    Face.sampleMean = Face.rating + getRandomElement([0, -10]);
+    } else {
+    Face.sampleMean = Face.rating + getRandomElement([0, -10, +10]);}
+    
+  Face.pool = (Face.sampleSD[1].responseJSON[Face.sampleMean]).slice(0, 12);//get an array of face index from JSON
+  Face.pos = jsPsych.randomization.shuffle(Face.pool); //randomize the 12 faces
 
   return [
     ['img/'+ Face.personX +(Face.emotionX + Face.pos[0] -100) + '.jpg', 'img/'+ Face.personX +(Face.emotionX + Face.pos[1]-100) + '.jpg',
