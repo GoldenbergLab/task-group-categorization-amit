@@ -39,7 +39,7 @@ function checkID (){
     if (!patt.test(textInput)){      //test if first/last character in response exist
       alert("Please, enter your participant id");
       return true; }
-    else{ return false;} 
+    else{ return false;}
 }
 
 function checkUser (){//check if user has been in list of
@@ -56,10 +56,10 @@ function checkAnswer (){
   var inputText = jsPsych.data.getLastTrialData().select('responses').values[0];
   var text = JSON.parse(inputText).Q0;
   var patt = new RegExp("[A-Za-z0-9 _.,!'/$]"); // this allows punctuations
-    if (!patt.test(textInput)){      //test if first/last character in response exist
+    if (!patt.test(inputText)){      //test if first/last character in response exist
       alert("Please describe the image just showed in a few words (this will be uses for validation purposes)");
       return true; }
-    else{ return false;} 
+    else{ return false;}
 }
 
 function checkCitizen (){
@@ -73,7 +73,7 @@ function checkCitizen (){
 
 function checkPhone (){
   var choice = jsPsych.data.getLastTrialData().select('button_pressed').values[0];
-  if(choice == 0){ 
+  if(choice == 0){
     alert('As mentioned in the study description, this study can only be done a computer and would not work on a smartphone. Your experiment will be terminated and the window will be closed.');
     window.close();
     return true;
@@ -148,7 +148,7 @@ function emotionValence(emotion){ //choose positive or negative valence
   } else if (emotion == 'negative'){
     Face.emotionX = 100;
     Face.path = 'img/';
-  } 
+  }
   return Face.emotionX
 }
 
@@ -174,7 +174,7 @@ function getFaceSample (){  //get the sample of faces in each trial
 
   Face.sampleSD = getRandomElement([face5sd,face10sd]); //random select from SD=5 and SD=10,
   Face.recordSD = Face.sampleSD[0];
-  
+
   ratingTrialData = jsPsych.data.get().last(1).filter({trial_type:'image-slider-response_noButton'}).values();
   Face.rating = Number(ratingTrialData[0].response); //get rating
 
@@ -184,7 +184,7 @@ function getFaceSample (){  //get the sample of faces in each trial
     Face.sampleMean = Face.rating + getRandomElement([0, -10]);
     } else {
     Face.sampleMean = Face.rating + getRandomElement([0, -10, +10]);}
-    
+
   Face.pool = (Face.sampleSD[1].responseJSON[Face.sampleMean]).slice(0, 12);//get an array of face index from JSON
   Face.pos = jsPsych.randomization.shuffle(Face.pool); //randomize the 12 faces
 
