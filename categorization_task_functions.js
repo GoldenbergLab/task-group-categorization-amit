@@ -56,7 +56,7 @@ function checkAnswer (){
   var inputText = jsPsych.data.getLastTrialData().select('responses').values[0];
   var text = JSON.parse(inputText).Q0;
   var patt = new RegExp("[A-Za-z0-9 _.,!'/$]"); // this allows punctuations
-    if (!patt.test(inputText)){      //test if first/last character in response exist
+    if (!patt.test(inputText  )){      //test if first/last character in response exist
       alert("Please describe the image just showed in a few words (this will be uses for validation purposes)");
       return true; }
     else{ return false;}
