@@ -9,6 +9,30 @@ function loadStimulus(type,start,end) { //the start and ending index of the imag
   return list;
 }
 
+function emotionValence(emotion){ //choose positive or negative valence
+  if (emotion == 'positive'){
+    Face.emotionX = 50;
+    Face.path = 'stimuliPositive/';
+  } else if (emotion == 'negative'){
+    Face.emotionX = 100;
+    Face.path = 'img/';
+  }
+  return Face.emotionX
+}
+
+function getStimList(min1,max1,min2,max2) {  //min1:first index of practice stim, min1:first index of task stim
+  var stims = [];
+  for(i = min2; i < (max2+1); i++){    //use loop to get a list of stimulus with sequential numbers in file names
+      if (Face.emotionX == 50){
+             stims.push( 'stimuliPositive/' + i + '.jpg');
+      } else { stims.push( 'stimuli/task' + '/1_0' + ("0" + i).slice(-2) + '.png')}};//add task stims
+  var stims = jsPsych.randomization.shuffle(stims);
+
+  for(i = min1; i < (max1+1); i++){    //use loop to get a list of stimulus with sequential numbers in file names
+      stims.push( 'stimuli/practice' + '/1_0' + ("0" + i).slice(-2) + '.png')};//add practice stims
+  return stims;  //attention please! in the list, 4 practice stimulus are AT TGE END (for convenience of shuffling and ordering)
+}
+
 function loadFacePool(start,end) { //the start and ending index of the images
   var list = [];
   for(i = start; i < (end+1); i++){
@@ -56,10 +80,10 @@ function checkAnswer (){
   var inputText = jsPsych.data.getLastTrialData().select('responses').values[0];
   var text = JSON.parse(inputText).Q0;
   var patt = new RegExp("[A-Za-z0-9 _.,!'/$]"); // this allows punctuations
-    if (!patt.test(inputText  )){      //test if first/last character in response exist
-      alert("Please describe the image just showed in a few words (this will be uses for validation purposes)");
-      return true; }
-    else{ return false;}
+  if (!patt.test(inputText  )){      //test if first/last character in response exist
+    alert("Please describe the image just showed in a few words (this will be uses for validation purposes)");
+    return true; }
+  else{ return false;}
 }
 
 function checkCitizen (){
@@ -123,34 +147,11 @@ function getFixationTime (){  //get randomized time of fixation by randomly choo
   return Face.fixationTime;
 }
 
-
-function getStimList(min1,max1,min2,max2) {  //min1:first index of practice stim, min1:first index of task stim
-  var stims = [];
-  for(i = min2; i < (max2+1); i++){    //use loop to get a list of stimulus with sequential numbers in file names
-      stims.push( 'stimuli/task' + '/1_0' + ("0" + i).slice(-2) + '.png')};//add task stims
-  var stims = jsPsych.randomization.shuffle(stims);
-
-  for(i = min1; i < (max1+1); i++){    //use loop to get a list of stimulus with sequential numbers in file names
-      stims.push( 'stimuli/practice' + '/1_0' + ("0" + i).slice(-2) + '.png')};//add practice stims
-  return stims;  //attention please! in the list, 4 practice stimulus are AT TGE END (for convenience of shuffling and ordering)
-}
-
-
 function getStim (){
   Face.stim =  Face.stims.pop();
   return Face.stim //get last stim of the stim list
 }
 
-function emotionValence(emotion){ //choose positive or negative valence
-  if (emotion == 'positive'){
-    Face.emotionX = 50;
-    Face.path = 'stimuliPositive/';
-  } else if (emotion == 'negative'){
-    Face.emotionX = 100;
-    Face.path = 'img/';
-  }
-  return Face.emotionX
-}
 
 function getScale (){ //generate the rating scale depending on the person and valence randomly chosen in faceArray
 
