@@ -6,7 +6,7 @@ function loadStimulus(type,start,end) { //the start and ending index of the imag
   var list = [];
   for(i = start; i < (end+1); i++){
      if (Face.emotionX == 50){
-     list.push( 'stimuliPositive' + i + '.jpg');
+     list.push( 'stimuliPositive/' + i + '.jpg');
      } else {list.push( 'stimuli/' + type + '/1_0' + ('0' + i).slice(-2) + '.png');}}
   return list;
 }
@@ -26,7 +26,7 @@ function getStimList(min1,max1,min2,max2) {  //min1:first index of practice stim
   var stims = [];
   for(i = min2; i < (max2+1); i++){    //use loop to get a list of stimulus with sequential numbers in file names
       if (Face.emotionX == 50){
-             stims.push( 'stimuliPositive' + i + '.jpg');
+             stims.push( 'stimuliPositive/' + i + '.jpg');
       } else { stims.push( 'stimuli/task' + '/1_0' + ("0" + i).slice(-2) + '.png')}};//add task stims
   var stims = jsPsych.randomization.shuffle(stims);
 
