@@ -163,11 +163,12 @@
   };
 
   var attention = {
+    on_start: saveData,
     type: 'survey-text',
     questions: [{prompt: 'Please describe, in your own words, the content of the image just displayed'}],
     on_finish: function(data){
-      Face.description = JSON.parse(data.responses).Q0; },
-    on_finish: saveData //save description
+      Face.description = JSON.parse(data.responses).Q0;
+    } //save description
   };
 
   var checkAttention = { //to check if participant is American citizen. If it's 'No', the experiment will be terminated
