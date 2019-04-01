@@ -2,36 +2,38 @@
 Various useful functions
 **/
 
-function loadStimulus(type,start,end) { //the start and ending index of the images
-  var list = [];
-  for(i = start; i < (end+1); i++){
-     if (Face.emotionX == 50){
-     list.push( 'stimuliPositive/' + i + '.jpg');
-     } else {list.push( 'stimuli/' + type + '/1_0' + ('0' + i).slice(-2) + '.png');}}
-  return list;
-}
-
 function emotionValence(emotion){ //choose positive or negative valence
   if (emotion == 'positive'){
     Face.emotionX = 50;
-    Face.path = 'stimuliPositive/';
+    Face.path = 'stimuli/positive/';
   } else if (emotion == 'negative'){
     Face.emotionX = 100;
-    Face.path = 'img/';
+    Face.path = 'stimuli/negative/';
   }
   return Face.emotionX
+}
+
+function loadStimulus(type,start,end) { //the start and ending index of the images
+  var list = [];
+  for(i = start; i < (end+1); i++){
+    if (type == 'practice'){
+      list.push( 'stimuli/practice/' + '1_0' + ("0" + i).slice(-2) + '.png');
+    } else if (Face.emotionX == 50){
+    list.push( 'stimuli/positive/' + i + '.jpg');
+    } else {list.push( 'stimuli/negative/' + '1_0' + ('0' + i).slice(-2) + '.png');}}
+  return list;
 }
 
 function getStimList(min1,max1,min2,max2) {  //min1:first index of practice stim, min1:first index of task stim
   var stims = [];
   for(i = min2; i < (max2+1); i++){    //use loop to get a list of stimulus with sequential numbers in file names
       if (Face.emotionX == 50){
-             stims.push( 'stimuliPositive/' + i + '.jpg');
-      } else { stims.push( 'stimuli/task' + '/1_0' + ("0" + i).slice(-2) + '.png')}};//add task stims
+             stims.push( 'stimuli/positive/' + i + '.jpg');
+      } else { stims.push( 'stimuli/negative/' + '1_0' + ("0" + i).slice(-2) + '.png')}};//add task stims
   var stims = jsPsych.randomization.shuffle(stims);
 
   for(i = min1; i < (max1+1); i++){    //use loop to get a list of stimulus with sequential numbers in file names
-      stims.push( 'stimuli/practice' + '/1_0' + ("0" + i).slice(-2) + '.png')};//add practice stims
+      stims.push( 'stimuli/practice/' + '1_0' + ("0" + i).slice(-2) + '.png')};//add practice stims
   return stims;  //attention please! in the list, 4 practice stimulus are AT TGE END (for convenience of shuffling and ordering)
 }
 
