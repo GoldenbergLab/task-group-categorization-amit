@@ -203,17 +203,6 @@ function getFaceSample (){  //get the sample of faces in each trial
     ];
 }
 
-function emotionValence(emotion){
-  if (emotion == 'positive'){
-    Face.emotionX = 50;
-    Face.path = 'stimuliPositive/';
-  } else if (emotion == 'negative'){
-    Face.emotionX = 100;
-    Face.path = 'img/';
-  }
-  return Face.emotionX
-}
-
 function getButtons() {
   var trialButtons = [
   '<button class="jspsych-btn" style="color:white; font-size: 24px; padding: 26px ;background-color:black; position: fixed; left:25%;top:36%; width: 210px;box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.9);border-radius: 50%">%choice%</button>',
