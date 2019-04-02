@@ -1,0 +1,270 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>categorization_task</title>
+    <script src="jspsych-6.0.5/jspsych.js"></script>
+    <script src="jspsych-6.0.5/plugins/jspsych-image-button-response.js"></script>
+    <script src="jspsych-6.0.5/plugins/jspsych-external-html.js"></script>
+    <script src="jspsych-6.0.5/plugins/jspsych-html-button-response.js"></script>
+    <script src="jspsych-6.0.5/plugins/jspsych-survey-text.js"></script>
+    <script src="jspsych-6.0.5/plugins/jspsych-html-keyboard-response.js"></script>
+    <script src="jspsych-6.0.5/plugins/jspsych-image-slider-response_noButton.js"></script>
+    <script src="jspsych-6.0.5/plugins/jspsych-vsl-grid-scene1.js"></script>
+    <script src="categorization_ensemble_task_functions.js"></script>
+    <script src="jquery-3.3.1.min.js"></script>
+    <link href="jspsych-6.0.5/css/jspsych.css" rel="stylesheet" type="text/css"></link>
+  </head>
+  <body bgcolor="#AAAAAA"></body>
+  <script>
+
+
+  /* ************************************ */
+  /* Define experimental variables / upload data */
+  /* ************************************ */
+
+  var taskNumber = 5; //must be mutiples of 5. The real trial number will have one extra due to attention check trial
+  var attentionCheckInterval = 5; // there will be an attention check every this number of trials
+  var Face = {}; //create Face dictionary to (1)record fixation time, (2)make face sample and scale have the same person and valence in every trial
+  Face.pos = [ ];  //(3)record data of 12 faces' data in face array
+  Face.wordList = ['but','rock','sky','our','course','we','table','house','here','mouth','tree', 'hello']; //word list for attention check
+  var facesPool = loadFacePool(51,150);
+  var emotion = emotionValence('negative'); //positive or negative
+
+  var practiceStimulusPool = loadStimulus('practice',1,4);
+  var taskStimulusPool = loadStimulus('task',1,50);
+  var slideList = createSlideList (1,11);//list of instructions slides, which have index from 1 to 11
+
+
+  //get distributions of faces
+  var face5sd =
+     [5,$.getJSON('https://web.stanford.edu/~amitgold/categorization_task/face_distribution_5sd.json', function(data) {
+   })]; //the face distribution is in responseJSON, the "5" and "10" are to record SD in data
+
+  var face10sd =
+     [10,$.getJSON('https://web.stanford.edu/~amitgold/categorization_task/face_distribution_10sd.json', function(data) {
+   })];
+
+  var userList =jQuery.get('https://web.stanford.edu/~amitgold/categorization_task/previousUsersID.txt', function(data) {});
+
+  /* ****************************************************/
+  /* Define local functions (other than functions file) */
+  /* ****************************************************/
+
+  function saveData(){ //save data function
+    $.ajax({
+      type: 'post',
+      cache: false,
+      url: 'https://web.stanford.edu/~amitgold/cgi-bin/save_data.php',
+      data: {filename: "2019_categorization_ensemble_coding_mturk/" + Face.ID+ ".json",
+             filedata: jsPsych.data.get().json()}
+      //error: error_callback
+    });
+  }
+
+
+
+  /******************************************/
+  /* Set up Instructions */
+  /******************************************/
+
+  var instructions = { //11 slides: 1:sorting, 2-9:before prac, 10:before real, 11:end
+    type: "image-button-response",
+    stimulus: getNextSlide,
+    choices: ['Continue'],
+    margin_vertical:'30px',
+    data: {Name:'instructions'}
+  };
+
+  /******************************************/
+  /* Start Experiment - trial by trial */
+  /******************************************/
+
+  var consent = {
+    type:'external-html',
+    url: "external_page.html",
+    cont_btn: "start",
+    check_fn: check_consent
+  };
+
+  var citizenship = {
+    type: 'image-button-response',
+    stimulus: '',
+    choices: ['Yes','No'],
+    prompt: "Are you an American citizen?",
+    data: {Name:'citizenship'}
+  };
+
+  var checkCitizen = { //to check if participant is American citizen. If it's 'No', the experiment will be terminated
+    timeline: [citizenship],
+    loop_function: checkCitizen
+  };
+
+  var phone = {
+    type: 'image-button-response',
+    stimulus: '',
+    choices: ['Phone','Computer'],
+    prompt: "Are you using a mobile phone or computer to conduct the experiment?",
+    data: {Name:'phone'}
+  };
+
+  var checkPhone = { //to check if participant is using phone. If it's 'No', the experiment will be terminated
+    timeline: [phone],
+    loop_function: checkPhone
+  };
+
+  var enter_id = {
+    type: 'survey-text',
+    questions: [{prompt: 'Please enter your mTurk id (this is important for your validation)'}],
+    on_finish: function(data){
+      Face.ID = JSON.parse(data.responses).Q0; //save id as global variable
+      jsPsych.data.addProperties({participant_id: Face.ID});} //record participant id
+  };
+
+  var participant_id = { //to check if participants have entered ID (number/character, no punctuation allowed)
+    timeline: [enter_id],
+    loop_function: checkID,
+    loop_function: checkUser
+  };
+
+  var askTypeWord = { //first attention check - participants are asked to copy a word that appears on the screen
+    type: 'survey-text',
+    questions: function (){return [{prompt:'Please type the word: '+ getWord().bold() + '  (pay attention to capital letters)'}]},
+  };
+
+  var attentionCheck = { //function for the attention check
+    timeline: [askTypeWord],
+    loop_function: checkTyping,
+    on_finish: saveData
+  };
+
+  var fixation = {
+      type: 'html-keyboard-response',
+      stimulus: '<p style="font-size: 48px;">+</p>',
+      trial_duration:  getFixationTime,  //transfer ms to s in units
+      data: {Name:'fixation'}
+  };
+
+  var stimulus = {
+      type: 'image-button-response',
+      stimulus: getFaceStimList,
+      choices: [],
+      trial_duration : 1000,
+      prompt: "",
+      data: {Name:'stimuli'}
+  };
+
+
+
+  var response = {
+      type: 'image-slider-response_noButton',
+      stimulus: getScale,
+      prompt: "<p>Estimate the degree of emotion in the face you just saw</p>",
+      step:1,
+      min:10,
+      max:40,
+      start:10,
+      data: {Name:'scale'}
+  };
+
+
+  var facesSample = {                //we show face array based on participant's response
+      type: 'vsl-grid-scene1',
+      stimuli:  getFaceSample,  //for selection detail. see function.js
+      timing_duration: 1500,
+      data: {Name:'array'}
+  };
+
+
+  var button = {
+      type: 'image-button-response',
+      stimulus: '',
+      choices: [' Same Group ','Other Group'],
+      prompt:"Please choose whether the face was taken from the sample or not",
+      button_html: getButtons,
+      data: function(){
+          return {
+            Name: 'buttonResponse',
+            fixationTime: Face.fixationTime,
+            faceIdentity: Face.personX,
+            stimList: Face.stims,
+            singleStim: Face.stim,
+            ratingCheck: (jsPsych.data.get().last(2).values())[0].response,
+            ratingTime:(jsPsych.data.get().last(2).values())[0].rt,
+            sampleSD: Face.recordSD,
+            sampleMean: Face.sampleMean,
+            pos:(Face.emotionX + Face.pos[0]),
+            meanAgents: Face.emotionX +
+           (Face.pos[0]+Face.pos[1]+Face.pos[2]+Face.pos[3]+Face.pos[4]+Face.pos[5]+
+            Face.pos[6]+Face.pos[7]+Face.pos[8]+Face.pos[9]+Face.pos[10]+Face.pos[11])/12
+      }}
+  };
+
+
+  var connectSurvey = {
+    on_start: saveData,
+    type: 'image-button-response',
+    stimulus: getNextSlide,
+    choices: ['Begin Survey']
+  };
+
+  /******************************************/
+  /*           timeline                     */
+  /******************************************/
+  var collective_emotion_estimation = []; //display instructions
+  collective_emotion_estimation.push(consent);
+  collective_emotion_estimation.push(checkCitizen,checkPhone);
+  collective_emotion_estimation.push(participant_id);
+  for (var i = 0; i < slideList.length-2; i++) {
+    collective_emotion_estimation.push(instructions)}
+  collective_emotion_estimation.push(attentionCheck) //attention ehck before practice trials
+  for (var i = 0; i < 3; i++) { // practice task
+      collective_emotion_estimation.push(
+        fixation,
+        stimulus,
+        response,
+        facesSample,
+        button);
+  };
+  collective_emotion_estimation.push(instructions); //diaplay last page of instruction
+  for (var i = 0; i < taskNumber/attentionCheckInterval; i++) {
+    collective_emotion_estimation.push( // loop through the rest of the task starting with an attention check
+      fixation,
+      stimulus,
+      response,
+      facesSample,
+      button,
+      checkAttention);
+    var k = 0;
+    while (k < (attentionCheckInterval - 1)){
+    collective_emotion_estimation.push(
+      fixation,
+      stimulus,
+      response,
+      facesSample,
+      button);
+    k ++;}
+  };
+
+  collective_emotion_estimation.push(connectSurvey);
+
+  /******************************************/
+  /*           run the study                */
+  /******************************************/
+    jsPsych.init({
+    preload_images: facesPool,taskStimulusPool,practiceStimulusPool,
+    timeline: collective_emotion_estimation,
+    on_finish: function(data){
+    //saveData
+    //var final_submit = function() {
+    //       jsPsych.turk.submitToTurk({"completion_time": (new Date().getTime())});
+    //};
+    //saveData("2019_categorization_task_pilot_negative_stanford_preload_pictures/" + Face.ID+ ".json",
+    //jsPsych.data.get().json(), final_submit, final_submit);
+    //jsPsych.data.get().localSave('csv',Face.ID+'.csv'); //save as csv file with id as file name
+    window.location = "https://stanforduniversity.qualtrics.com/jfe/form/SV_bEiRfX9t4QIxuPX" //redirect to Qualtrics survey
+    }
+  })
+
+</script>
+</html>
