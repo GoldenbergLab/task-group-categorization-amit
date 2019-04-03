@@ -23,17 +23,18 @@
   /* Define experimental variables / upload data */
   /* ************************************ */
 
-  var taskNumber = 5; //must be mutiples of 5. The real trial number will have one extra due to attention check trial
+  var taskNumber = 50; //must be mutiples of 5. The real trial number will have one extra due to attention check trial
   var attentionCheckInterval = 5; // there will be an attention check every this number of trials
   var Face = {}; //create Face dictionary to (1)record fixation time, (2)make face sample and scale have the same person and valence in every trial
   Face.pos = [ ];  //(3)record data of 12 faces' data in face array
   Face.wordList = ['but','rock','sky','our','course','we','table','house','here','mouth','tree', 'hello']; //word list for attention check
   var facesPool = loadFacePool(51,150);
   var emotion = emotionValence('negative'); //positive or negative
-
   var practiceStimulusPool = loadStimulus('practice',1,4);
   var taskStimulusPool = loadStimulus('task',1,50);
   var slideList = createSlideList (1,9);//list of instructions slides, which have index from 1 to 11
+  var falseAnswer = 0; var falseAllowance = 4;  //attention check - the amount of time participants rate the same picture before they get an alert
+  var repeatAlert = 0; var repeatAllowance = 2; //how many times they can get alerts before they are cicked out
 
 
   //get distributions of faces
@@ -51,7 +52,7 @@
   /* Define local functions (other than functions file) */
   /* ****************************************************/
 
-  function saveData(){ //save data function
+  function saveData(){ //save data function - saved here so that we can have one function file for everything
     $.ajax({
       type: 'post',
       cache: false,
@@ -61,8 +62,6 @@
       //error: error_callback
     });
   }
-
-
 
   /******************************************/
   /* Set up Instructions */
@@ -87,18 +86,6 @@
     check_fn: check_consent
   };
 
-  var citizenship = {
-    type: 'image-button-response',
-    stimulus: '',
-    choices: ['Yes','No'],
-    prompt: "Are you an American citizen?",
-    data: {Name:'citizenship'}
-  };
-
-  var checkCitizen = { //to check if participant is American citizen. If it's 'No', the experiment will be terminated
-    timeline: [citizenship],
-    loop_function: checkCitizen
-  };
 
   var phone = {
     type: 'image-button-response',
@@ -147,14 +134,12 @@
 
   var stimulus = {
       type: 'image-button-response',
-      stimulus: getFaceStimList,
+      stimulus: getFaceStim,
       choices: [],
-      trial_duration : 1000,
+      trial_duration : 2000,
       prompt: "",
       data: {Name:'stimuli'}
   };
-
-
 
   var response = {
       type: 'image-slider-response_noButton',
@@ -166,7 +151,6 @@
       start:10,
       data: {Name:'scale'}
   };
-
 
   var facesSample = {                //we show face array based on participant's response
       type: 'vsl-grid-scene1',
@@ -189,7 +173,7 @@
             faceIdentity: Face.personX,
             stimList: Face.stims,
             singleStim: Face.stim,
-            ratingCheck: (jsPsych.data.get().last(2).values())[0].response,
+            rating: (jsPsych.data.get().last(2).values())[0].response,
             ratingTime:(jsPsych.data.get().last(2).values())[0].rt,
             sampleSD: Face.recordSD,
             sampleMean: Face.sampleMean,
@@ -213,7 +197,7 @@
   /******************************************/
   var collective_emotion_estimation = []; //display instructions
   collective_emotion_estimation.push(consent);
-  collective_emotion_estimation.push(checkCitizen,checkPhone);
+  collective_emotion_estimation.push(checkPhone);
   collective_emotion_estimation.push(participant_id);
   for (var i = 0; i < slideList.length-2; i++) {
     collective_emotion_estimation.push(instructions)}
@@ -251,7 +235,7 @@
   /******************************************/
   /*           run the study                */
   /******************************************/
-    jsPsych.init({
+  jsPsych.init({
     preload_images: facesPool,taskStimulusPool,practiceStimulusPool,
     timeline: collective_emotion_estimation,
     on_finish: function(data){
