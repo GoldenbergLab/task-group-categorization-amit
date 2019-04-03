@@ -33,7 +33,7 @@
 
   var practiceStimulusPool = loadStimulus('practice',1,4);
   var taskStimulusPool = loadStimulus('task',1,50);
-  var slideList = createSlideList (1,11);//list of instructions slides, which have index from 1 to 11
+  var slideList = createSlideList (1,9);//list of instructions slides, which have index from 1 to 11
 
 
   //get distributions of faces
@@ -159,7 +159,7 @@
   var response = {
       type: 'image-slider-response_noButton',
       stimulus: getScale,
-      prompt: "<p>Estimate the degree of emotion in the face you just saw</p>",
+      prompt: "<p>Estimate the degree of emotion expressed by the face you just saw</p>",
       step:1,
       min:10,
       max:40,
@@ -179,8 +179,8 @@
   var button = {
       type: 'image-button-response',
       stimulus: '',
-      choices: [' Same Group ','Other Group'],
-      prompt:"Please choose whether the face was taken from the sample or not",
+      choices: [' From Sample ','Not From Sample'],
+      prompt:"Please choose whether the first face you saw was taken FROM the sample of faces or NOT",
       button_html: getButtons,
       data: function(){
           return {
@@ -234,7 +234,7 @@
       response,
       facesSample,
       button,
-      checkAttention);
+      attentionCheck);
     var k = 0;
     while (k < (attentionCheckInterval - 1)){
     collective_emotion_estimation.push(

@@ -24,6 +24,11 @@ function loadStimulus(type,start,end) { //the start and ending index of the imag
   return list;
 }
 
+function getWord (){ //get a word for attention check from the word list
+  Face.word = Face.wordList.shift();
+  return Face.word;
+}
+
 function getStimList(min1,max1,min2,max2) {  //min1:first index of practice stim, min1:first index of task stim
   var stims = [];
   for(i = min2; i < (max2+1); i++){    //use loop to get a list of stimulus with sequential numbers in file names
@@ -58,7 +63,7 @@ function loadFacePool(start,end) { //the start and ending index of the images
 function createSlideList(start,end){
   var list = [];
   for (i = start; i < (end+1); i++){
-     list.push( 'img/ins_just_ensamble/Slide ' + i + '.png');}
+     list.push( 'img/ins_just_ensamble/Slide'+i+'.png');}
   return list;
 }
 
@@ -181,10 +186,8 @@ function checkTyping(){  //test if type correctly
 
 
 function getScale (){ //generate the rating scale depending on the person and valence randomly chosen in faceArray
-
-  //choose the identity of the face
-  Face.personX = getRandomElement(['A','B','C','D']);//randomally choose from ['A','B','C','D'] -- select person
-
+  //identify of the face is similar to the original ientity.
+  //Face.personX = getRandomElement(['A','B','C','D']);//randomally choose from ['A','B','C','D'] -- select person
   return ['img/'+
     Face.personX+(Face.emotionX + 3*0) + '.jpg', 'img/'+Face.personX+(Face.emotionX + 3*1) + '.jpg', 'img/'+
     Face.personX+(Face.emotionX + 3*2) + '.jpg', 'img/'+Face.personX+(Face.emotionX + 3*3) + '.jpg', 'img/'+
@@ -202,23 +205,14 @@ function getFaceSample (){  //get the sample of faces in each trial
   Face.sampleSD = getRandomElement([face5sd,face10sd]); //random select from SD=5 and SD=10,
   Face.recordSD = Face.sampleSD[0];
 
-  if (Face.stim > 40) {
-    Face.rating =40
-  } else if (Face.stim<10) {
-    Face.rating =10
+  if ( Face.stim <= 10) {  //if you rated the picture between 10-20 you can only be assigned to the same or higher condition
+    Face.sampleMean = 10 + getRandomElement([0, +10]);
+  } else if ( Face.stim>10 && Face.stim < 21) {  //if you rated the picture between 10-20 you can only be assigned to the same or higher condition
+    Face.sampleMean = Face.stim + getRandomElement([0, +10]);
+  } else if (Face.stim > 30 && Face.stim<40) {   //If you rated the picture between 30 to 40 you can only be assigned to lower or same
+    Face.sampleMean = Face.stim + getRandomElement([0, -10]);
   } else {
-    Face.rating = Face.Stim
-  }
-
-   Face.stim // this is based on the face that participants saw
-
-  if ( Face.rating < 21) {  //if you rated the picture between 10-20 you can only be assigned to the same or higher condition
-    Face.sampleMean = Face.rating + getRandomElement([0, +10]);
-  } else if (Face.rating > 30) {   //If you rated the picture between 30 to 40 you can only be assigned to lower or same
-    Face.sampleMean = Face.rating + getRandomElement([0, -10]);
-  } else {
-    Face.sampleMean = Face.rating + getRandomElement([0, -10, +10]);}
-
+    Face.sampleMean = 40 + getRandomElement([0, -10, +10]);}
   Face.pool = (Face.sampleSD[1].responseJSON[Face.sampleMean]).slice(0, 12);//get an array of face index from JSON
   Face.pos = jsPsych.randomization.shuffle(Face.pool); //randomize the 12 faces
 
@@ -234,8 +228,8 @@ function getFaceSample (){  //get the sample of faces in each trial
 
 function getButtons() {
   var trialButtons = [
-  '<button class="jspsych-btn" style="color:white; font-size: 24px; padding: 26px ;background-color:black; position: fixed; left:25%;top:36%; width: 210px;box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.9);border-radius: 50%">%choice%</button>',
-  '<button class="jspsych-btn" style="color:white; font-size: 24px; padding: 26px ;background-color:red;position: fixed; left:62%;top:36%;width: 210px;box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.9);border-radius: 50%">%choice%</button>'];
+  '<button class="jspsych-btn" style="color:white; font-size: 20px; padding: 26px ;background-color:black; position: fixed; left:25%;top:36%; width: 210px;box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.9);border-radius: 50%">%choice%</button>',
+  '<button class="jspsych-btn" style="color:white; font-size: 20px; padding: 26px ;background-color:red;position: fixed; left:62%;top:36%;width: 210px;box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.9);border-radius: 50%">%choice%</button>'];
   myButtons = [];
   myButtons.push(trialButtons);
   //alert (myButtons)
