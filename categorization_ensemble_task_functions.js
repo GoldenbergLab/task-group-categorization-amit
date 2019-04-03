@@ -194,8 +194,8 @@ function checkTyping(){  //test if type correctly
     if (falseAnswer == falseAllowance){ //if participant gets alert this number of times
       alert("Hi! You've made too much errors in typing the word suggesting that you are not paying attention to the task. The task will be Terminated");
       window.close();
-    }else{return true;} }
-  else {falseAnswer = 0; return false} //reset falseAnswer
+    }else{return true;}
+  }else {falseAnswer = 0; return false} //reset falseAnswer
 }
 
 /*
